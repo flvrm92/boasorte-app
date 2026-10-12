@@ -13,9 +13,9 @@
 | `winners_count` | `integer` | não | CHECK `>= 1` |
 | `range_start` | `integer` | sim | obrigatório se `kind = range` |
 | `range_end` | `integer` | sim | obrigatório se `kind = range`; CHECK `range_end >= range_start` |
-| `submitted_count` | `integer` | não | entradas recebidas antes de normalizar/deduplicar (`range`: igual a `eligible_count`) |
-| `eligible_count` | `integer` | não | participantes sorteáveis |
-| `participants` | `text[]` | sim | elegíveis na ordem original; `null` para `range` |
+| `submitted_count` | `bigint` | não | entradas recebidas antes de normalizar/deduplicar (`range`: igual a `eligible_count`) |
+| `eligible_count` | `bigint` | não | participantes sorteáveis (um intervalo de ±1 bi tem 2.000.000.001 números) |
+| `participants` | `text[]` | não | elegíveis na ordem original; vazio (`{}`) para `range` |
 | `winners` | `text[]` | não | em ordem (índice 0 = 1º lugar) |
 | `created_at` | `timestamptz` | não | UTC |
 | `expires_at` | `timestamptz` | não | `created_at + 12 meses`; **índice** (usado pela purga) |

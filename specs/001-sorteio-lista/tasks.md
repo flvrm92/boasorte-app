@@ -15,14 +15,14 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 **Checkpoint:** `docker compose -f deploy/docker-compose.dev.yml up -d`, `dotnet test` (testes de arquitetura verdes), `dotnet run` e `ng serve` sobem; `GET /api/health` → 200 pelo proxy do Angular.
 
 ## Fase 1 — Domain da API (TDD puro, sem I/O)
-- [ ] **T010 API** 🔴🟢 `Result`/`Error` (Common).
-- [ ] **T011 API [P]** 🔴🟢 VO `Participant`: trim, vazio inválido, > 200 caracteres inválido, `DedupKey`.
-- [ ] **T012 API [P]** 🔴🟢 VO `NumberRange`: bordas, `Start > End`, limites de ±1 bi, `Count`.
-- [ ] **T013 API [P]** 🔴🟢 VOs `WinnersCount`, `DrawTitle`, `Winner`, `DrawSettings`.
-- [ ] **T014 API [P]** 🔴🟢 VO `PublicId`: `New` com random determinístico gera 12 caracteres base62; `Parse` rejeita tamanho/alfabeto inválidos.
-- [ ] **T015 API** 🔴 `ListPool` contra **todos** os casos de `contracts/normalization-cases.json` (arquivo linkado no `.csproj` de teste) + `SubmittedCount`. 🟢 Implementar `ListPool` e `RangePool`. *(FR-003, FR-004)*
-- [ ] **T016 API** 🔴 `WinnerSampler`: k distintos em `[0, n)`; k = n retorna uma permutação; n grande (2 bi) sem alocar n; sequência determinística com random falso; teste estatístico leve (10.000 × 1-de-5 com frequências em ±10%). 🟢 Floyd + Fisher–Yates. *(FR-006)*
-- [ ] **T017 API** 🔴 Agregado `Draw.Conduct`: k > elegíveis → erro com o nº de elegíveis; ganhadores em ordem e distintos; `ExpiresAt` = +12 meses; `IsExpiredAt`. 🟢 Implementar. *(FR-005, FR-006, FR-011)*
+- [x] **T010 API** 🔴🟢 `Result`/`Error` (Common).
+- [x] **T011 API [P]** 🔴🟢 VO `Participant`: trim, vazio inválido, > 200 caracteres inválido, `DedupKey`.
+- [x] **T012 API [P]** 🔴🟢 VO `NumberRange`: bordas, `Start > End`, limites de ±1 bi, `Count`.
+- [x] **T013 API [P]** 🔴🟢 VOs `WinnersCount`, `DrawTitle`, `Winner`, `DrawSettings`.
+- [x] **T014 API [P]** 🔴🟢 VO `PublicId`: `New` com random determinístico gera 12 caracteres base62; `Parse` rejeita tamanho/alfabeto inválidos.
+- [x] **T015 API** 🔴 `ListPool` contra **todos** os casos de `contracts/normalization-cases.json` (arquivo linkado no `.csproj` de teste) + `SubmittedCount`. 🟢 Implementar `ListPool` e `RangePool`. *(FR-003, FR-004)*
+- [x] **T016 API** 🔴 `WinnerSampler`: k distintos em `[0, n)`; k = n retorna uma permutação; n grande (2 bi) sem alocar n; sequência determinística com random falso; teste estatístico leve (10.000 × 1-de-5 com frequências em ±10%). 🟢 Floyd + Fisher–Yates. *(FR-006)*
+- [x] **T017 API** 🔴 Agregado `Draw.Conduct`: k > elegíveis → erro com o nº de elegíveis; ganhadores em ordem e distintos; `ExpiresAt` = +12 meses; `IsExpiredAt`. 🟢 Implementar. *(FR-005, FR-006, FR-011)*
 
 **Checkpoint:** `BoaSorte.Domain.Tests` verde; o Domain sem dependências (testes de arquitetura verdes).
 
