@@ -6,4 +6,4 @@ Estrutura: **Status** (proposta | aceita | substituída por NNNN) · **Contexto*
 
 | Nº | Decisão | Status |
 |----|---------|--------|
-| 0001 | Biblioteca de componentes (resultado da PoC da [004](../004-design-system/spec.md)) | pendente |
+| [0001](0001-biblioteca-de-componentes.md) | Biblioteca de componentes: Angular Material + CDK (PoC da [004](../004-design-system/spec.md)) | aceita |
