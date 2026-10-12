@@ -34,23 +34,23 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 **Checkpoint:** `BoaSorte.Application.Tests` verde sem nenhum I/O.
 
 ## Fase 3 — Infrastructure + Api
-- [ ] **T030 API** Fixture de integração: `WebApplicationFactory` + Testcontainers Postgres (um container por coleção, reset entre testes).
-- [ ] **T031 API** 🔴 `DrawRepository`: round-trip de um `Draw` completo (VOs, arrays e ordem dos ganhadores preservados); `DeleteExpiredBeforeAsync`. 🟢 `DrawConfiguration` conforme [data-model.md](data-model.md) + migração `InitialDraws` + `MigrateAsync` no startup.
-- [ ] **T032 API [P]** 🔴🟢 `CryptoRandomSource` (limites; nunca fora de `[0, max)`).
-- [ ] **T033 API** 🔴 `POST /api/v1/draws` conforme [contracts/api.md](contracts/api.md): 201 + `Location`; 400 com `errors` por campo; corpo > 3 MB → 413. 🟢 Endpoint + `ResultExtensions` + registrar os handlers da Application (`AddApplication`) junto com os adaptadores — a factory de integração valida o DI (`ValidateOnBuild`), então registro faltando quebra os testes.
-- [ ] **T034 API** 🔴 `GET /api/v1/draws/{publicId}`: 200 idêntico em duas leituras; 404; 410; `publicId` malformado → 404. 🟢 Endpoint. *(US5.3)*
-- [ ] **T035 API** 🔴🟢 Rate limit de 10/min por IP no `POST` → 429 com ProblemDetails, usando `X-Forwarded-For`. *(FR-013)*
-- [ ] **T036 API** 🔴🟢 `ExpiredDrawsPurgeJob` chama o handler (teste com intervalo curto). *(FR-011)*
+- [x] **T030 API** Fixture de integração: `WebApplicationFactory` + Testcontainers Postgres (um container por coleção, reset entre testes).
+- [x] **T031 API** 🔴 `DrawRepository`: round-trip de um `Draw` completo (VOs, arrays e ordem dos ganhadores preservados); `DeleteExpiredBeforeAsync`. 🟢 `DrawConfiguration` conforme [data-model.md](data-model.md) + migração `InitialDraws` + `MigrateAsync` no startup.
+- [x] **T032 API [P]** 🔴🟢 `CryptoRandomSource` (limites; nunca fora de `[0, max)`).
+- [x] **T033 API** 🔴 `POST /api/v1/draws` conforme [contracts/api.md](contracts/api.md): 201 + `Location`; 400 com `errors` por campo; corpo > 3 MB → 413. 🟢 Endpoint + `ResultExtensions` + registrar os handlers da Application (`AddApplication`) junto com os adaptadores — a factory de integração valida o DI (`ValidateOnBuild`), então registro faltando quebra os testes.
+- [x] **T034 API** 🔴 `GET /api/v1/draws/{publicId}`: 200 idêntico em duas leituras; 404; 410; `publicId` malformado → 404. 🟢 Endpoint. *(US5.3)*
+- [x] **T035 API** 🔴🟢 Rate limit de 10/min por IP no `POST` → 429 com ProblemDetails, usando `X-Forwarded-For`. *(FR-013)*
+- [x] **T036 API** 🔴🟢 `ExpiredDrawsPurgeJob` chama o handler (teste com intervalo curto). *(FR-011)*
 
-**Checkpoint:** `dotnet test` todo verde; `/openapi/v1.json` coerente com o contrato.
+**Checkpoint:** `dotnet test` todo verde; `/openapi/v1.json` coerente com o contrato. ✅ 132 testes; OpenAPI declara 201/400/413/429 e 200/404/410.
 
 ## Fase 4 — Domínio do client (Vitest) — pode rodar em paralelo às Fases 1–3
-- [ ] **T040 APP [P]** 🔴 `participants.ts` com o mesmo `normalization-cases.json`. 🟢 Implementar. *(FR-003, FR-004)*
-- [ ] **T041 APP [P]** 🔴 `pick-winners.ts`: mesmos cenários da T016 (fonte aleatória injetável). 🟢 Floyd + Fisher–Yates com `crypto.getRandomValues` + rejection sampling.
-- [ ] **T042 APP [P]** 🔴 `parse-file.ts`: TXT (CRLF/LF, BOM); CSV `,`/`;`, aspas, cabeçalho, escolha de coluna; > 1 MB, > 10.000 linhas e extensão inválida. 🟢 Implementar sobre o `papaparse`. *(FR-002, US3)*
-- [ ] **T043 APP** 🔴🟢 `draw.models.ts` + `draw-api.ts` (`HttpTestingController`): mapeamento de 201/200/400/404/410/429.
+- [x] **T040 APP [P]** 🔴 `participants.ts` com o mesmo `normalization-cases.json`. 🟢 Implementar. *(FR-003, FR-004)*
+- [x] **T041 APP [P]** 🔴 `pick-winners.ts`: mesmos cenários da T016 (fonte aleatória injetável). 🟢 Floyd + Fisher–Yates com `crypto.getRandomValues` + rejection sampling.
+- [x] **T042 APP [P]** 🔴 `parse-file.ts`: TXT (CRLF/LF, BOM); CSV `,`/`;`, aspas, cabeçalho, escolha de coluna; > 1 MB, > 10.000 linhas e extensão inválida. 🟢 Implementar sobre o `papaparse`. *(FR-002, US3)*
+- [x] **T043 APP** 🔴🟢 `draw.models.ts` + `draw-api.ts` (`HttpTestingController`): mapeamento de 201/200/400/404/410/429.
 
-## Fase 5 — UI do client — ⛔ bloqueada pelo ADR 0001 ([004](../004-design-system/spec.md))
+## Fase 5 — UI do client — ✅ desbloqueada (ADR 0001 aceito) ([004](../004-design-system/spec.md))
 - [ ] **T050 APP** 🔴🟢 `participants-input`: abas Lista/Intervalo, validação do intervalo, contador "X entradas · Y elegíveis". *(US1, US2, US4.3)*
 - [ ] **T051 APP** 🔴🟢 `file-import`: importar, seletor de coluna/cabeçalho para CSV, textarea editável após importar. *(US3)*
 - [ ] **T052 APP** 🔴🟢 `draw-settings`: título, ganhadores (limitado aos elegíveis), duplicados, exibir participantes. *(FR-004, FR-005, FR-009)*

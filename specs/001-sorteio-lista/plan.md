@@ -99,7 +99,7 @@ boasorte-api/
 ## Regras de domínio (iguais no client e na API)
 
 1. **Normalizar** (FR-003): `trim()`; descartar vazias; > 200 caracteres = erro de validação.
-2. **Deduplicar** (FR-004, opcional): a chave é `trim` + minúsculas (invariante); mantém a **primeira** ocorrência; acentos são distintos.
+2. **Deduplicar** (FR-004, opcional): a chave é `trim` + minúsculas (`ToLowerInvariant` na API, `toLowerCase()` no client: mesmo mapeamento simples, então `ß`/`ẞ` empatam e `SS` não); mantém a **primeira** ocorrência; acentos são distintos.
 3. **Sortear** (FR-006): k distintos, em ordem, `1 ≤ k ≤ min(elegíveis, 1000)`.
 4. **Intervalo**: ±1.000.000.000, `start ≤ end`.
 
