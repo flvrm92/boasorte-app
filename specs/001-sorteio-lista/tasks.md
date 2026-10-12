@@ -27,9 +27,9 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 **Checkpoint:** `BoaSorte.Domain.Tests` verde; o Domain sem dependências (testes de arquitetura verdes).
 
 ## Fase 2 — Application da API
-- [ ] **T020 API** 🔴 `CreateDrawHandler` com fakes (`InMemoryDrawRepository`, `FakeTimeProvider`, random determinístico): lista e intervalo felizes; erros de validação por campo (título, participantes, intervalo, ganhadores); persiste exatamente o que retorna. 🟢 Implementar + `CreateDrawCommand`/`DrawDetails`. *(US1, US2, US4, FR-009)*
-- [ ] **T021 API** 🔴 `GetDrawHandler`: encontrado, `NotFound`, `Expired`; `participants` nulo quando `ShowParticipants = false` ou intervalo. 🟢 Implementar. *(US5.2, US5.3, FR-011)*
-- [ ] **T022 API** 🔴🟢 `PurgeExpiredDrawsHandler` (cutoff = agora − 30 dias).
+- [x] **T020 API** 🔴 `CreateDrawHandler` com fakes (`InMemoryDrawRepository`, `FakeTimeProvider`, random determinístico): lista e intervalo felizes; erros de validação por campo (título, participantes, intervalo, ganhadores); persiste exatamente o que retorna. 🟢 Implementar + `CreateDrawCommand`/`DrawDetails`. *(US1, US2, US4, FR-009)*
+- [x] **T021 API** 🔴 `GetDrawHandler`: encontrado, `NotFound`, `Expired`; `participants` nulo quando `ShowParticipants = false` ou intervalo. 🟢 Implementar. *(US5.2, US5.3, FR-011)*
+- [x] **T022 API** 🔴🟢 `PurgeExpiredDrawsHandler` (cutoff = agora − 30 dias).
 
 **Checkpoint:** `BoaSorte.Application.Tests` verde sem nenhum I/O.
 
@@ -37,7 +37,7 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 - [ ] **T030 API** Fixture de integração: `WebApplicationFactory` + Testcontainers Postgres (um container por coleção, reset entre testes).
 - [ ] **T031 API** 🔴 `DrawRepository`: round-trip de um `Draw` completo (VOs, arrays e ordem dos ganhadores preservados); `DeleteExpiredBeforeAsync`. 🟢 `DrawConfiguration` conforme [data-model.md](data-model.md) + migração `InitialDraws` + `MigrateAsync` no startup.
 - [ ] **T032 API [P]** 🔴🟢 `CryptoRandomSource` (limites; nunca fora de `[0, max)`).
-- [ ] **T033 API** 🔴 `POST /api/v1/draws` conforme [contracts/api.md](contracts/api.md): 201 + `Location`; 400 com `errors` por campo; corpo > 3 MB → 413. 🟢 Endpoint + `ResultExtensions`.
+- [ ] **T033 API** 🔴 `POST /api/v1/draws` conforme [contracts/api.md](contracts/api.md): 201 + `Location`; 400 com `errors` por campo; corpo > 3 MB → 413. 🟢 Endpoint + `ResultExtensions` + registrar os handlers da Application (`AddApplication`) junto com os adaptadores — a factory de integração valida o DI (`ValidateOnBuild`), então registro faltando quebra os testes.
 - [ ] **T034 API** 🔴 `GET /api/v1/draws/{publicId}`: 200 idêntico em duas leituras; 404; 410; `publicId` malformado → 404. 🟢 Endpoint. *(US5.3)*
 - [ ] **T035 API** 🔴🟢 Rate limit de 10/min por IP no `POST` → 429 com ProblemDetails, usando `X-Forwarded-For`. *(FR-013)*
 - [ ] **T036 API** 🔴🟢 `ExpiredDrawsPurgeJob` chama o handler (teste com intervalo curto). *(FR-011)*
