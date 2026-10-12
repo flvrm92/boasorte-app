@@ -63,8 +63,8 @@ Api ──▶ Application ──▶ Domain
 - Pt-BR é o idioma da interface; código e identificadores em inglês.
 
 ## Stack de referência
-- Frontend: Angular 22 (standalone, zoneless, signals), SCSS, Vitest, Playwright. Biblioteca de componentes: decidida pela PoC da [004](004-design-system/spec.md).
-- Backend: .NET 10 Minimal API, OpenAPI, xUnit v3, Testcontainers.
-- Persistência: PostgreSQL + EF Core (Npgsql).
+- Frontend: Angular 22 (standalone, zoneless, signals), SCSS, Vitest, Playwright; Node ≥ 24.15 (`.nvmrc`). Biblioteca de componentes: decidida pela PoC da [004](004-design-system/spec.md).
+- Backend: .NET 10 Minimal API, OpenAPI, xUnit v3 sobre o Microsoft.Testing.Platform, Testcontainers, NetArchTest.
+- Persistência: PostgreSQL 18 + EF Core (Npgsql).
 - Hospedagem: VPS com **Dokploy** (Traefik + Docker Swarm), domínio **boasorte.app**. Front e API na mesma origem (`/` e `/api/*`). Postgres gerenciado pelo Dokploy; backups por script próprio na VPS.
 - Provedores externos: definidos nos `plan.md`.

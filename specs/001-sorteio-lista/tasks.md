@@ -4,13 +4,13 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 **TDD:** tasks marcadas com 🔴 são de teste e precedem a 🟢 de implementação. O teste precisa falhar pelo motivo certo antes da implementação.
 
 ## Fase 0 — Setup
-- [ ] **T001 API** Reestruturar o repo: `src/` com `BoaSorte.Domain`, `.Application`, `.Infrastructure`, `.Api` (o projeto atual vira `BoaSorte.Api`); `tests/` com os 4 projetos de teste; `BoaSorte.slnx` na raiz; `Directory.Build.props` (net10.0, Nullable, TreatWarningsAsErrors) e `Directory.Packages.props`; remover `weatherforecast`; mover o `Dockerfile` para a raiz (contexto multi-projeto).
-- [ ] **T002 API** 🔴🟢 `BoaSorte.Architecture.Tests` (NetArchTest): o Domain não referencia nenhum outro projeto, nem EF ou ASP.NET; a Application não referencia Infrastructure/Api/EF; a Infrastructure não referencia a Api.
-- [ ] **T003 OPS** `deploy/docker-compose.dev.yml` (neste repo) com Postgres 17 para dev local.
-- [ ] **T004 API** Composição base da `BoaSorte.Api`: `AddProblemDetails`, `ForwardedHeaders`, sem `UseHttpsRedirection`, OpenAPI, `AddApplication()`/`AddInfrastructure()` vazios, `AppDbContext` vazio com Npgsql + `EFCore.NamingConventions`, `GET /api/health` com check do banco.
-- [ ] **T005 APP** Atualizar o Angular 20 → 21 → 22 (`ng update`); migrar Karma/Jasmine → **Vitest** (builder `@angular/build:unit-test`, schematic de refactor jasmine→vitest); remover as dependências do Karma; `ng test` verde.
-- [ ] **T006 APP** `provideHttpClient(withFetch())`, `proxy.conf.json` (`/api` → porta da API), rotas `''`, `sorteio/lista` e `s/:publicId` com páginas vazias; `npm i papaparse`.
-- [ ] **T007 APP** Playwright configurado (`npm run e2e`) com um teste de fumaça que abre `/`.
+- [x] **T001 API** Reestruturar o repo: `src/` com `BoaSorte.Domain`, `.Application`, `.Infrastructure`, `.Api` (o projeto atual vira `BoaSorte.Api`); `tests/` com os 4 projetos de teste; `BoaSorte.slnx` na raiz; `Directory.Build.props` (net10.0, Nullable, TreatWarningsAsErrors) e `Directory.Packages.props`; remover `weatherforecast`; mover o `Dockerfile` para a raiz (contexto multi-projeto).
+- [x] **T002 API** 🔴🟢 `BoaSorte.Architecture.Tests` (NetArchTest): o Domain não referencia nenhum outro projeto, nem EF ou ASP.NET; a Application não referencia Infrastructure/Api/EF; a Infrastructure não referencia a Api.
+- [x] **T003 OPS** `deploy/docker-compose.dev.yml` (neste repo) com Postgres 18 para dev local (porta padrão 5433, para não conflitar com um Postgres já existente na 5432).
+- [x] **T004 API** Composição base da `BoaSorte.Api`: `AddProblemDetails`, `ForwardedHeaders`, sem `UseHttpsRedirection`, OpenAPI, `AddApplication()`/`AddInfrastructure()` vazios, `AppDbContext` vazio com Npgsql + `EFCore.NamingConventions`, `GET /api/health` com check do banco.
+- [x] **T005 APP** Atualizar o Angular 20 → 21 → 22 (`ng update`); migrar Karma/Jasmine → **Vitest** (builder `@angular/build:unit-test`, schematic de refactor jasmine→vitest); remover as dependências do Karma; `ng test` verde.
+- [x] **T006 APP** `provideHttpClient(withFetch())`, `proxy.conf.json` (`/api` → porta da API), rotas `''`, `sorteio/lista` e `s/:publicId` com páginas vazias; `npm i papaparse`.
+- [x] **T007 APP** Playwright configurado (`npm run e2e`) com um teste de fumaça que abre `/`.
 
 **Checkpoint:** `docker compose -f deploy/docker-compose.dev.yml up -d`, `dotnet test` (testes de arquitetura verdes), `dotnet run` e `ng serve` sobem; `GET /api/health` → 200 pelo proxy do Angular.
 

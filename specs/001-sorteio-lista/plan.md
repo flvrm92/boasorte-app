@@ -8,7 +8,7 @@
 | Tema | Decisão | Motivo |
 |------|---------|--------|
 | Arquitetura da API | Clean Architecture em 4 projetos (Domain, Application, Infrastructure, Api), com a regra de dependência verificada por testes de arquitetura | Constituição §4 |
-| Banco | PostgreSQL 17 + EF Core (Npgsql) | Decisão do usuário. Arrays nativos (`text[]`) guardam participantes e ganhadores sem tabelas extras. |
+| Banco | PostgreSQL 18 + EF Core (Npgsql) | Decisão do usuário. Arrays nativos (`text[]`) guardam participantes e ganhadores sem tabelas extras. |
 | Hospedagem | VPS com **Dokploy**: Applications `web` e `api` (Dockerfile a partir do Git) + Database PostgreSQL do Dokploy | Decisão do usuário. O Traefik do Dokploy cuida do TLS e do roteamento. |
 | Domínio | `boasorte.app`: `web` em `/` e `api` em `/api` (sem strip path); `www.boasorte.app` redireciona para o apex | Origem única: sem CORS e com cookies first-party (importante para o OAuth da 002). O TLD `.app` exige HTTPS (HSTS preload), o que o Traefik já garante. |
 | Backup | Script próprio na VPS (cron) com `pg_dump` | Decisão do usuário. Ver *Implantação*. |
