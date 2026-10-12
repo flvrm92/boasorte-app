@@ -1,8 +1,8 @@
-import Papa from 'papaparse';
-
 /** Spec 001, FR-002: .txt or .csv (UTF-8), up to 1 MB and 10,000 lines, read in the browser. */
 export const MAX_FILE_BYTES = 1024 * 1024;
 export const MAX_FILE_LINES = 10_000;
+
+const BYTE_ORDER_MARK = String.fromCharCode(0xfeff);
 
 export type ParseResult = { ok: true; table: string[][] } | { ok: false; error: string };
 
@@ -11,8 +11,9 @@ export async function parseParticipantsFile(file: File): Promise<ParseResult> {
   if (!extension) return { ok: false, error: 'Use um arquivo .txt ou .csv.' };
   if (file.size > MAX_FILE_BYTES) return { ok: false, error: 'O arquivo deve ter no máximo 1 MB.' };
 
-  const text = (await file.text()).replace(/^﻿/, '');
-  const table = extension === 'txt' ? parseText(text) : parseCsv(text);
+  const raw = await file.text();
+  const text = raw.startsWith(BYTE_ORDER_MARK) ? raw.slice(1) : raw;
+  const table = extension === 'txt' ? parseText(text) : await parseCsv(text);
 
   return table.length > MAX_FILE_LINES
     ? { ok: false, error: 'O arquivo pode ter no máximo 10.000 linhas.' }
@@ -25,8 +26,9 @@ function parseText(text: string): string[][] {
   return lines.map(line => [line]);
 }
 
-function parseCsv(text: string): string[][] {
-  // Delimiter auto-detected (",", ";", tab or "|"); quotes and escaped quotes handled by Papa Parse.
+async function parseCsv(text: string): Promise<string[][]> {
+  // Loaded on demand: only CSV imports need it. Delimiter auto-detected (",", ";", tab or "|"); quotes handled.
+  const { default: Papa } = await import('papaparse');
   return Papa.parse<string[]>(text, { skipEmptyLines: 'greedy' }).data;
 }
 

@@ -1,0 +1,72 @@
+@if (view(); as v) {
+  <article class="result">
+    <header class="page-head">
+      <p class="eyebrow">Sorteio oficial</p>
+      <h1>{{ v.heading }}</h1>
+      <p>Realizado em {{ v.createdAt }}.</p>
+    </header>
+
+    <div class="grid">
+      <section class="panel" aria-labelledby="winners-title">
+        <h2 id="winners-title">Ganhadores</h2>
+        <ol class="winners">
+          @for (winner of v.draw.winners; track winner.position) {
+            <li>
+              <app-lottery-ball [position]="winner.position" />
+              <span class="name"> {{ winner.value }}</span>
+            </li>
+          }
+        </ol>
+      </section>
+
+      <section class="panel" aria-labelledby="details-title">
+        <h2 id="details-title">Como foi o sorteio</h2>
+        <ul class="facts">
+          <li>{{ v.pool }}</li>
+          <li>{{ v.winnersLabel }}</li>
+          @if (v.draw.settings.removeDuplicates) {
+            <li>Nomes repetidos removidos</li>
+          }
+          <li>Sorteio feito pelo servidor do BoaSorte, com gerador aleatório criptográfico</li>
+        </ul>
+
+        @if (v.draw.participants; as participants) {
+          <details>
+            <summary>Ver os {{ participants.length }} participantes</summary>
+            <ol class="participants">
+              @for (participant of participants; track $index) {
+                <li>{{ participant }}</li>
+              }
+            </ol>
+          </details>
+        } @else if (v.hiddenParticipants) {
+          <p class="note">O organizador escolheu não mostrar a lista de participantes.</p>
+        }
+
+        <p class="note">Este resultado não muda e fica disponível até {{ v.expiresAt }}.</p>
+      </section>
+    </div>
+
+    <p class="cta"><a mat-flat-button routerLink="/sorteio/lista">Fazer meu sorteio</a></p>
+  </article>
+} @else if (failure() === 'not-found') {
+  <div class="page-head">
+    <h1>Não encontramos este sorteio.</h1>
+    <p>Confira se o link foi copiado inteiro. Links de sorteio têm 12 letras e números depois de <code>/s/</code>.</p>
+  </div>
+  <a mat-flat-button routerLink="/sorteio/lista">Fazer um sorteio</a>
+} @else if (failure() === 'expired') {
+  <div class="page-head">
+    <h1>Este sorteio expirou.</h1>
+    <p>Resultados ficam disponíveis por 12 meses depois do sorteio.</p>
+  </div>
+  <a mat-flat-button routerLink="/sorteio/lista">Fazer um sorteio</a>
+} @else if (failure()) {
+  <div class="page-head">
+    <h1>Não foi possível carregar o resultado.</h1>
+    <p>Verifique sua conexão e tente de novo.</p>
+  </div>
+  <button mat-flat-button type="button" (click)="draw.reload()">Tentar de novo</button>
+} @else {
+  <p class="note" role="status">Carregando o resultado…</p>
+}

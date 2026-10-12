@@ -18,3 +18,13 @@ describe('LotteryBall', () => {
     expect(render(3).style.getPropertyValue('--i')).toBe('2');
   });
 });
+
+describe('LotteryBall with many winners', () => {
+  it('caps the stagger so the whole reveal stays under 3 seconds (spec 001, FR-007)', () => {
+    const fixture = TestBed.createComponent(LotteryBall);
+    fixture.componentRef.setInput('position', 500);
+    fixture.detectChanges();
+
+    expect((fixture.nativeElement as HTMLElement).style.getPropertyValue('--i')).toBe('10');
+  });
+});

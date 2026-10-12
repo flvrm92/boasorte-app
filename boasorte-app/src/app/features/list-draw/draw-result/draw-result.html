@@ -1,0 +1,45 @@
+<div class="head">
+  <h2 id="result-title">Ganhadores</h2>
+  @if (store.result()?.kind === 'quick') {
+    <button mat-button type="button" [disabled]="!store.canDraw() || store.saving()" (click)="store.quickDraw()">
+      Sortear novamente
+    </button>
+  }
+</div>
+
+@if (store.saveError(); as error) {
+  <p class="error-text" role="alert">{{ error }}</p>
+}
+
+<div aria-live="polite">
+  @if (store.winners().length) {
+    <p class="note">
+      @if (official()) {
+        Sorteio oficial salvo. Este resultado não muda mais.
+      } @else {
+        Sorteio rápido, não salvo. Para ter um link de comprovação, use “Sortear e salvar”.
+      }
+    </p>
+    <ol class="winners" aria-labelledby="result-title">
+      @for (winner of store.winners(); track $index) {
+        <li>
+          <app-lottery-ball [position]="$index + 1" />
+          <span class="name"> {{ winner }}</span>
+        </li>
+      }
+    </ol>
+  } @else {
+    <p class="note">Os ganhadores aparecem aqui depois do sorteio.</p>
+  }
+</div>
+
+@if (sharePath(); as path) {
+  <div class="share">
+    <p class="share-label">Link do resultado</p>
+    <a class="share-link" [routerLink]="path">{{ shareUrl() }}</a>
+    <button mat-flat-button type="button" (click)="copyLink()">
+      <svg lucideCopy aria-hidden="true"></svg>
+      Copiar link
+    </button>
+  </div>
+}

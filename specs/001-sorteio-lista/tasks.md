@@ -51,13 +51,13 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 - [x] **T043 APP** 🔴🟢 `draw.models.ts` + `draw-api.ts` (`HttpTestingController`): mapeamento de 201/200/400/404/410/429.
 
 ## Fase 5 — UI do client — ✅ desbloqueada (ADR 0001 aceito) ([004](../004-design-system/spec.md))
-- [ ] **T050 APP** 🔴🟢 `participants-input`: abas Lista/Intervalo, validação do intervalo, contador "X entradas · Y elegíveis". *(US1, US2, US4.3)*
-- [ ] **T051 APP** 🔴🟢 `file-import`: importar, seletor de coluna/cabeçalho para CSV, textarea editável após importar. *(US3)*
-- [ ] **T052 APP** 🔴🟢 `draw-settings`: título, ganhadores (limitado aos elegíveis), duplicados, exibir participantes. *(FR-004, FR-005, FR-009)*
-- [ ] **T053 APP** 🔴🟢 `draw-result` + sorteio rápido: animação ≤ 3 s (instantânea com `prefers-reduced-motion`), `aria-live`, "sortear novamente". *(FR-007, FR-008)*
-- [ ] **T054 APP** 🔴🟢 "Sortear e salvar": diálogo explicando o sorteio oficial → `POST` → link + "copiar link"; tratamento de 400/429. *(US5.1, FR-012)*
-- [ ] **T055 APP** 🔴🟢 `shared-draw-page`: dados, participantes (se houver), estados de carregando/404/410. *(US5.2–5.4)*
-- [ ] **T056 APP** Revisão de responsividade (360 px+) nos dois temas + axe-core sem violações sérias.
+- [x] **T050 APP** 🔴🟢 `participants-input`: abas Lista/Intervalo, validação do intervalo, contador "X entradas · Y elegíveis". *(US1, US2, US4.3)*
+- [x] **T051 APP** 🔴🟢 `file-import`: importar, seletor de coluna/cabeçalho para CSV, textarea editável após importar. *(US3)*
+- [x] **T052 APP** 🔴🟢 `draw-settings`: título, ganhadores (limitado aos elegíveis), duplicados, exibir participantes. *(FR-004, FR-005, FR-009)*
+- [x] **T053 APP** 🔴🟢 `draw-result` + sorteio rápido: animação ≤ 3 s (instantânea com `prefers-reduced-motion`), `aria-live`, "sortear novamente". *(FR-007, FR-008)*
+- [x] **T054 APP** 🔴🟢 "Sortear e salvar": diálogo explicando o sorteio oficial → `POST` → link + "copiar link"; tratamento de 400/429. *(US5.1, FR-012)*
+- [x] **T055 APP** 🔴🟢 `shared-draw-page`: dados, participantes (se houver), estados de carregando/404/410. *(US5.2–5.4)*
+- [x] **T056 APP** Revisão de responsividade (360 px+) nos dois temas + axe-core sem violações sérias.
 
 ## Fase 6 — E2E e implantação
 - [ ] **T060 APP** Playwright: (a) lista → sorteio rápido → resultado (US1); (b) importar TXT → sortear e salvar → abrir o link → mesmo resultado em dois acessos (US3 + US5); (c) os dois temas no viewport mobile.

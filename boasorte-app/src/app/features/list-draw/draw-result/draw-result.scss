@@ -1,0 +1,66 @@
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+}
+
+.note {
+  margin-bottom: var(--space-4);
+}
+
+.winners {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 60vh;
+  overflow-y: auto;
+  // Room for the balls' shadow, which the scroll container would otherwise clip.
+  padding: var(--space-1) var(--space-2) var(--space-3) var(--space-1);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+}
+
+.name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.share {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+}
+
+.share-label {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.share-link {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}

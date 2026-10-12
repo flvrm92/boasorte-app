@@ -1,0 +1,43 @@
+<mat-tab-group mat-stretch-tabs="false" [selectedIndex]="tabIndex()" (selectedIndexChange)="selectTab($event)">
+  <mat-tab label="Lista">
+    <div class="stack tab-body">
+      <app-field
+        label="Nomes ou números"
+        hint="Um participante por linha. Linhas vazias são ignoradas."
+        [error]="store.listError()"
+      >
+        <textarea
+          appFieldControl
+          rows="10"
+          spellcheck="false"
+          placeholder="Ana&#10;Bruno&#10;Carla"
+          [value]="store.listText()"
+          (input)="setText($event)"
+        ></textarea>
+      </app-field>
+
+      <div class="list-footer">
+        <p class="counter" data-testid="counter" aria-live="polite">
+          <strong>{{ entries() }}</strong> · <strong>{{ eligible() }}</strong>
+        </p>
+        <app-file-import />
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Intervalo">
+    <div class="stack tab-body">
+      <div class="range">
+        <app-field label="De">
+          <input appFieldControl type="number" inputmode="numeric" [value]="store.rangeStart() ?? ''" (input)="setNumber(store.rangeStart, $event)" />
+        </app-field>
+        <app-field label="Até" [error]="store.rangeError()">
+          <input appFieldControl type="number" inputmode="numeric" [value]="store.rangeEnd() ?? ''" (input)="setNumber(store.rangeEnd, $event)" />
+        </app-field>
+      </div>
+      @if (!store.rangeError()) {
+        <p class="counter" aria-live="polite"><strong>{{ numbers() }}</strong></p>
+      }
+    </div>
+  </mat-tab>
+</mat-tab-group>

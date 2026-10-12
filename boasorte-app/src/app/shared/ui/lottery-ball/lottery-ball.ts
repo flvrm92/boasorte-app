@@ -51,5 +51,6 @@ export class LotteryBall {
   /** 1 = first place. */
   readonly position = input.required<number>();
 
-  protected readonly stagger = computed(() => String(this.position() - 1));
+  /** Capped so even 1,000 winners are revealed within ~2 s (spec 001, FR-007). */
+  protected readonly stagger = computed(() => String(Math.min(this.position() - 1, 10)));
 }
