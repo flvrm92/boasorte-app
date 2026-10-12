@@ -1,3 +1,4 @@
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { THEME_STORAGE_KEY, ThemeService } from './theme.service';
 
@@ -98,6 +99,29 @@ describe('ThemeService', () => {
     TestBed.tick();
 
     expect(appliedTheme()).toBe('dark');
+    vi.restoreAllMocks();
+  });
+});
+
+describe('ThemeService during prerendering (server)', () => {
+  beforeEach(() => {
+    delete document.documentElement.dataset['theme'];
+    TestBed.configureTestingModule({ providers: [{ provide: PLATFORM_ID, useValue: 'server' }] });
+  });
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('never touches browser-only APIs and leaves the theme to theme-init.js', () => {
+    vi.stubGlobal('matchMedia', () => {
+      throw new Error('matchMedia is not available on the server');
+    });
+    const getItem = vi.spyOn(Storage.prototype, 'getItem');
+
+    const service = createService();
+
+    expect(service.resolved()).toBe('light');
+    expect(getItem).not.toHaveBeenCalled();
+    expect(appliedTheme()).toBeUndefined();
     vi.restoreAllMocks();
   });
 });

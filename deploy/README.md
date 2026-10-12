@@ -65,6 +65,10 @@ As migrações rodam na inicialização. Por isso, toda migração precisa ser c
 
 O Traefik escolhe a regra mais específica, então `/api/*` vai para a API mesmo com a web em `/`.
 
+O Traefik só roteia para containers **saudáveis**: logo após um deploy, há alguns segundos de 404 até o health check passar. Espere o status *healthy* antes dos testes.
+
+A web é gerada como arquivos estáticos: `/`, `/termos` e `/privacidade` são prerenderizadas, e as demais rotas usam `index.csr.html` (veja `boasorte-app/nginx.conf`). `/s/*` recebe `X-Robots-Tag: noindex`.
+
 ## 5. Backup (no host da VPS, fora do Dokploy)
 
 ```bash
@@ -88,10 +92,15 @@ Ensaio feito em 2026-10-12, no ambiente local: backup → apagar tudo → restor
 
 ## 6. Primeiro deploy — checklist (T065)
 
+- [ ] **Dados legais completos:** `cd boasorte-app && npm run check:legal` passa (razão social e CNPJ em `src/app/features/legal/legal-entity.ts`)
+- [ ] **Termos e política revisados por um advogado** (pré-requisito do App Review da Meta)
+- [ ] Caixa de e-mail `contato@boasorte.app` criada e recebendo
+- [ ] Retenção dos logs de acesso do Traefik/Dokploy ≤ 30 dias (a política de privacidade promete isso)
+
 - [ ] `https://boasorte.app/api/health` → `Healthy`
 - [ ] `https://www.boasorte.app` redireciona para `https://boasorte.app`
 - [ ] Headers na home: `Content-Security-Policy`, `X-Frame-Options: DENY`, HSTS (o Traefik/Dokploy adiciona com HTTPS; o TLD `.app` é HSTS-preload)
-- [ ] `cd boasorte-app && E2E_BASE_URL=https://boasorte.app npx playwright test e2e/list-draw.e2e.ts e2e/smoke.e2e.ts`
+- [ ] `cd boasorte-app && E2E_BASE_URL=https://boasorte.app npx playwright test e2e/list-draw.e2e.ts e2e/landing.e2e.ts e2e/smoke.e2e.ts`
   - cria 2 sorteios reais (de teste) no banco de produção
 - [ ] Rate limit enxerga o IP real: 11 `POST` seguidos do mesmo IP → o 11º recebe 429 (comportamento validado no ensaio local, inclusive contra `X-Forwarded-For` forjado)
 - [ ] Primeiro backup manual gerado e listado com `pg_restore --list`

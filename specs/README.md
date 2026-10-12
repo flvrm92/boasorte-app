@@ -25,7 +25,7 @@ Decisões técnicas difíceis de reverter viram [ADRs](adr/README.md).
 |----|---------|------|
 | [001](001-sorteio-lista/spec.md) | Sorteio por lista (nomes/números) | Fases 0–5 prontas (falta e2e + deploy) → [tasks](001-sorteio-lista/tasks.md) |
 | [002](002-sorteio-comentarios/spec.md) | Sorteio de comentários (Instagram/Facebook via OAuth) | Clarified |
-| [003](003-landing-page/spec.md) | Landing page | Clarified |
+| [003](003-landing-page/spec.md) | Landing page, termos e privacidade | Implementada (falta razão social/CNPJ e revisão jurídica) → [tasks](003-landing-page/tasks.md) |
 | [004](004-design-system/spec.md) | Design system, temas e PoC Material × PrimeNG | Fundação implementada → [tasks](004-design-system/tasks.md) |
 
 Princípios transversais: [constitution.md](constitution.md).

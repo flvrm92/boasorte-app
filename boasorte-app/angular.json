@@ -31,7 +31,9 @@
             ],
             "allowedCommonJsDependencies": [
               "papaparse"
-            ]
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "static"
           },
           "configurations": {
             "production": {
