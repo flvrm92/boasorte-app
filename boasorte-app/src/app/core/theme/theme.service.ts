@@ -1,20 +1,24 @@
-import { DOCUMENT } from '@angular/common';
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { computed, effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 export type ThemeMode = 'system' | 'light' | 'dark';
 export type ResolvedTheme = Exclude<ThemeMode, 'system'>;
 
-/** Also read by the inline script in index.html, which applies the theme before first paint. */
+/** Also read by public/theme-init.js, which applies the theme before first paint. */
 export const THEME_STORAGE_KEY = 'boasorte-theme';
 
-/** Light/dark theme (spec 004, FR-402): follows the OS until the user picks one; the choice is remembered. */
+/**
+ * Light/dark theme (spec 004, FR-402): follows the OS until the user picks one; the choice is remembered.
+ * During prerendering (no window) it stays inert; theme-init.js sets the real theme when the page loads.
+ */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly document = inject(DOCUMENT);
-  private readonly media = this.document.defaultView!.matchMedia('(prefers-color-scheme: dark)');
-  private readonly systemDark = signal(this.media.matches);
+  private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly media = this.browser ? this.document.defaultView!.matchMedia('(prefers-color-scheme: dark)') : null;
+  private readonly systemDark = signal(this.media?.matches ?? false);
 
-  readonly mode = signal<ThemeMode>(readStoredMode());
+  readonly mode = signal<ThemeMode>(this.browser ? readStoredMode() : 'system');
 
   readonly resolved = computed<ResolvedTheme>(() => {
     const mode = this.mode();
@@ -23,7 +27,9 @@ export class ThemeService {
   });
 
   constructor() {
-    this.media.addEventListener('change', event => this.systemDark.set(event.matches));
+    if (!this.browser) return;
+
+    this.media!.addEventListener('change', event => this.systemDark.set(event.matches));
 
     effect(() => {
       this.document.documentElement.dataset['theme'] = this.resolved();

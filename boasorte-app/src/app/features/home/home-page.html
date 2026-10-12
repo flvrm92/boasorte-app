@@ -1,0 +1,103 @@
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <h1 id="hero-title">Sorteios justos, com resultado que não muda.</h1>
+    <p class="lead">
+      Sorteie nomes, números ou comentários e compartilhe um link que comprova quem ganhou. Grátis e sem cadastro.
+    </p>
+
+    <div class="hero-actions">
+      <a mat-flat-button class="cta" routerLink="/sorteio/lista">
+        <svg lucideShuffle aria-hidden="true"></svg>
+        Sortear uma lista
+      </a>
+      <span class="soon" data-testid="comments-soon">
+        Sortear comentários
+        <span class="soon-badge">Em breve</span>
+      </span>
+    </div>
+
+    <p class="trust">Aleatoriedade criptográfica · Resultado salvo por 12 meses · Sem anúncios</p>
+  </div>
+
+  <figure class="result-card" aria-label="Exemplo de resultado">
+    <figcaption>
+      <span class="eyebrow">Sorteio oficial</span>
+      <span class="card-title">Rifa do churrasco</span>
+    </figcaption>
+    <ol class="winners">
+      @for (name of exampleWinners; track name; let i = $index) {
+        <li>
+          <app-lottery-ball [position]="i + 1" />
+          <span class="name"> {{ name }}</span>
+        </li>
+      }
+    </ol>
+    <p class="card-meta">7 participantes elegíveis de 9 entradas</p>
+    <p class="card-link">boasorte.app/s/aZ3k9QpL0xYt</p>
+  </figure>
+</section>
+
+<section id="como-funciona" class="section" aria-labelledby="how-title">
+  <h2 id="how-title">Como funciona</h2>
+  <ol class="steps">
+    <li>
+      <span class="step-number" aria-hidden="true">1</span>
+      <h3>Adicione os participantes</h3>
+      <p>Cole uma lista, importe um arquivo .txt ou .csv ou escolha um intervalo de números.</p>
+    </li>
+    <li>
+      <span class="step-number" aria-hidden="true">2</span>
+      <h3>Defina as regras</h3>
+      <p>Quantos ganhadores, se nomes repetidos contam uma vez só e se a lista aparece no resultado.</p>
+    </li>
+    <li>
+      <span class="step-number" aria-hidden="true">3</span>
+      <h3>Sorteie e compartilhe</h3>
+      <p>Repita o sorteio rápido quantas vezes quiser. Quando for para valer, salve: o link mostra o resultado para todo mundo.</p>
+    </li>
+  </ol>
+</section>
+
+<section id="por-que-confiar" class="section" aria-labelledby="trust-title">
+  <h2 id="trust-title">Por que você pode confiar no resultado</h2>
+  <ul class="reasons">
+    <li>
+      <svg lucideShieldCheck aria-hidden="true"></svg>
+      <h3>Aleatoriedade de verdade</h3>
+      <p>Os ganhadores são escolhidos por um gerador aleatório criptográfico, o mesmo tipo usado em segurança da informação.</p>
+    </li>
+    <li>
+      <svg lucideServer aria-hidden="true"></svg>
+      <h3>Sorteio feito no servidor</h3>
+      <p>No sorteio oficial, quem sorteia é o servidor do BoaSorte. Ninguém consegue escolher o resultado antes de salvar.</p>
+    </li>
+    <li>
+      <svg lucideLock aria-hidden="true"></svg>
+      <h3>Resultado que não muda</h3>
+      <p>Depois de salvo, o sorteio não pode ser editado nem refeito. O link mostra data, regras, participantes e ganhadores.</p>
+    </li>
+  </ul>
+</section>
+
+<section id="perguntas" class="section" aria-labelledby="faq-title">
+  <h2 id="faq-title">Perguntas frequentes</h2>
+  <div class="faq">
+    @for (item of faq; track item.question) {
+      <details>
+        <summary>{{ item.question }}</summary>
+        <p>
+          {{ item.answer }}
+          @if (item.link; as link) {
+            <a [routerLink]="link.path">{{ link.label }}</a>
+          }
+        </p>
+      </details>
+    }
+  </div>
+</section>
+
+<section class="final-cta" aria-labelledby="cta-title">
+  <h2 id="cta-title">Pronto para sortear?</h2>
+  <p>Leva menos de um minuto, e você vê o resultado antes de salvar.</p>
+  <a mat-flat-button class="cta" routerLink="/sorteio/lista">Sortear uma lista</a>
+</section>

@@ -1,0 +1,133 @@
+<article class="prose">
+  <h1>Política de privacidade</h1>
+  <p class="effective">Vigente desde {{ effectiveDate }}</p>
+
+  <h2 id="resumo">Resumo</h2>
+  <ul class="callout">
+    <li>Não pedimos cadastro.</li>
+    <li>Não usamos cookies de rastreamento nem ferramentas de análise ou publicidade.</li>
+    <li>No sorteio rápido, os nomes ficam só no seu navegador.</li>
+    <li>Quando você salva um sorteio, guardamos os dados dele por 12 meses para mostrar o resultado no link.</li>
+    <li>Você pode pedir a exclusão a qualquer momento pelo e-mail <a [href]="'mailto:' + entity.email">{{ entity.email }}</a>.</li>
+  </ul>
+
+  <h2 id="controlador">Quem é o controlador</h2>
+  <p>
+    O BoaSorte (boasorte.app) é mantido por <strong>{{ entity.name }}</strong>, CNPJ {{ entity.cnpj }}, controladora dos
+    dados pessoais tratados no serviço, nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018, "LGPD").
+  </p>
+  <p>
+    Contato do encarregado pelo tratamento de dados: <a [href]="'mailto:' + entity.email">{{ entity.email }}</a>.
+  </p>
+
+  <h2 id="dados">Quais dados tratamos e para quê</h2>
+
+  <h3>Sorteio rápido</h3>
+  <p>
+    Os nomes ou números que você digita ou importa (de arquivos .txt ou .csv) são processados no seu navegador e
+    <strong>não são enviados ao servidor</strong>. O sorteio rápido também acontece no navegador.
+  </p>
+
+  <h3>Sorteio salvo (oficial)</h3>
+  <p>
+    Quando você escolhe "Sortear e salvar", enviamos ao servidor o título (se houver), a lista de participantes, as
+    configurações do sorteio e o número de ganhadores. O servidor faz o sorteio e guarda esses dados, os ganhadores
+    e a data, para mostrar e comprovar o resultado no link compartilhado. É a execução do serviço que você solicitou
+    (art. 7º, V, da LGPD).
+  </p>
+  <p>
+    Sobre os nomes dos participantes: quem organiza o sorteio decide quais dados incluir e deve ter base legal para
+    usá-los (por exemplo, o regulamento da promoção). Evite incluir dados além do necessário, como CPF, telefone ou
+    e-mail. O BoaSorte usa esses dados apenas para fazer e exibir o sorteio.
+  </p>
+
+  <h3>Endereço IP</h3>
+  <p>
+    Usamos o endereço IP no momento de cada pedido de sorteio salvo para limitar a quantidade de sorteios por minuto
+    e proteger o serviço contra abuso (legítimo interesse, art. 7º, IX). O IP <strong>não é gravado</strong> no banco
+    de dados. Os registros técnicos do servidor (logs), que podem conter o IP, são mantidos por até 30 dias para
+    segurança e diagnóstico.
+  </p>
+
+  <h3>Preferência de tema</h3>
+  <p>A escolha entre tema claro e escuro fica guardada apenas no seu navegador (armazenamento local) e não é enviada a nós.</p>
+
+  <h3>Sorteio de comentários (quando disponível)</h3>
+  <p>
+    Para sortear comentários, você conecta sua conta do Instagram (Business ou Creator) ou uma Página do Facebook pelo
+    login oficial da Meta. Recebemos um token de acesso e o nome de usuário da conta, e lemos os comentários do post
+    escolhido (autor, texto, data e menções). O token fica guardado no servidor só durante a sua sessão e é descartado
+    quando ela termina. Os comentários ficam em memória temporária por até 30 minutos, apenas para aplicar as regras
+    e sortear, e não são armazenados, exceto os comentários vencedores de um sorteio que você salvar, que ficam junto
+    com o resultado.
+  </p>
+
+  <h2 id="cookies">Cookies</h2>
+  <p>
+    Não usamos cookies de rastreamento nem ferramentas de análise ou publicidade. Quando o sorteio de comentários
+    estiver disponível, um cookie estritamente necessário manterá a sua sessão conectada enquanto você usa o serviço.
+  </p>
+
+  <h2 id="compartilhamento">Com quem compartilhamos</h2>
+  <ul>
+    <li>Não vendemos nem cedemos dados pessoais.</li>
+    <li>O serviço roda em um servidor localizado no {{ entity.hostingCountry }}, contratado de um provedor de hospedagem que atua como operador.</li>
+    <li>Com a Meta, apenas quando você conecta a sua conta para sortear comentários.</li>
+    <li>
+      Resultados salvos são públicos para quem tiver o link. Se você desmarcar "Mostrar participantes no link", o link
+      mostra só os ganhadores e as contagens.
+    </li>
+  </ul>
+
+  <h2 id="retencao">Por quanto tempo guardamos</h2>
+  <ul>
+    <li>Sorteios salvos: 12 meses a partir da data do sorteio. Depois disso, o link informa que o sorteio expirou e os dados são apagados em até 30 dias.</li>
+    <li>Cópias de segurança: são sobrescritas em até 5 semanas.</li>
+    <li>Logs técnicos: até 30 dias.</li>
+    <li>Token de acesso da Meta: até o fim da sua sessão.</li>
+  </ul>
+
+  <h2 id="direitos">Seus direitos</h2>
+  <p>Pela LGPD (art. 18), você pode pedir:</p>
+  <ul>
+    <li>confirmação de que tratamos dados seus e acesso a eles;</li>
+    <li>correção de dados incompletos ou incorretos;</li>
+    <li>anonimização, bloqueio ou eliminação de dados desnecessários ou tratados em desconformidade com a lei;</li>
+    <li>portabilidade;</li>
+    <li>informação sobre com quem compartilhamos os dados;</li>
+    <li>eliminação dos dados tratados com base no seu consentimento e revogação desse consentimento.</li>
+  </ul>
+  <p>
+    Escreva para <a [href]="'mailto:' + entity.email">{{ entity.email }}</a>. Respondemos em até 15 dias. Você também
+    pode apresentar reclamação à Autoridade Nacional de Proteção de Dados (ANPD).
+  </p>
+
+  <h2 id="exclusao">Como excluir seus dados</h2>
+  <ol>
+    <li>
+      Envie um e-mail para <a [href]="'mailto:' + entity.email">{{ entity.email }}</a> com o assunto "Exclusão de dados" e:
+      <ul>
+        <li>o link do resultado (boasorte.app/s/…), para excluir um sorteio salvo; ou</li>
+        <li>o nome de usuário do Instagram ou da Página do Facebook, para excluir dados de sorteios de comentários.</li>
+      </ul>
+    </li>
+    <li>Confirmamos a exclusão em até 15 dias.</li>
+    <li>
+      Se você conectou uma conta da Meta, também pode remover o acesso do BoaSorte a qualquer momento em
+      Instagram › Configurações › Apps e sites, ou em Facebook › Configurações › Apps e sites.
+    </li>
+  </ol>
+
+  <h2 id="seguranca">Segurança</h2>
+  <p>
+    Todo o tráfego usa HTTPS. Os links de resultado são gerados aleatoriamente e não podem ser adivinhados. O acesso ao
+    servidor e ao banco de dados é restrito, e fazemos cópias de segurança diárias. Nenhum sistema é totalmente
+    imune a falhas; se houver um incidente de segurança relevante, comunicaremos os afetados e a ANPD conforme a lei.
+  </p>
+
+  <h2 id="alteracoes">Alterações desta política</h2>
+  <p>
+    Podemos atualizar esta política quando o serviço mudar. A data de vigência no topo indica a versão atual; mudanças
+    relevantes serão destacadas nesta página. Veja também os <a routerLink="/termos">termos de uso</a>.
+  </p>
+</article>

@@ -66,3 +66,53 @@
   margin: 0;
   color: var(--color-danger);
 }
+
+// Long-form reading (terms, privacy policy).
+.prose {
+  max-width: 72ch;
+
+  h1 {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem);
+    letter-spacing: -0.03em;
+  }
+
+  .effective {
+    margin: 0 0 var(--space-6);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-ink-muted);
+  }
+
+  h2 {
+    margin: var(--space-7) 0 var(--space-3);
+    font-size: 1.25rem;
+    scroll-margin-top: var(--space-5);
+  }
+
+  h3 {
+    margin: var(--space-5) 0 var(--space-2);
+    font-size: 1.05rem;
+  }
+
+  p,
+  li {
+    line-height: 1.65;
+  }
+
+  ul {
+    padding-left: var(--space-5);
+  }
+
+  li + li {
+    margin-top: var(--space-2);
+  }
+
+  .callout {
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-2);
+  }
+}

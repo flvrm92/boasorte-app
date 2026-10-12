@@ -55,7 +55,7 @@ for (const theme of ['light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce' }); // measure the resting state, not mid-animation
     await page.addInitScript(t => localStorage.setItem('boasorte-theme', t), theme);
 
-    for (const url of ['/', '/sorteio/lista', '/_design']) {
+    for (const url of ['/', '/sorteio/lista', '/termos', '/privacidade', ...(process.env['E2E_BASE_URL'] ? [] : ['/_design'])]) {
       await page.goto(url);
       await expect(html(page)).toHaveAttribute('data-theme', theme);
       await page.evaluate(() => document.fonts.ready);
@@ -73,7 +73,7 @@ for (const theme of ['light', 'dark'] as const) {
 test('has no horizontal scroll at 360px', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 780 });
 
-  for (const url of ['/', '/_design']) {
+  for (const url of ['/', '/privacidade', ...(process.env['E2E_BASE_URL'] ? [] : ['/_design'])]) {
     await page.goto(url);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, url).toBeLessThanOrEqual(0);

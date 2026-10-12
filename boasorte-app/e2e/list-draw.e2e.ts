@@ -80,7 +80,7 @@ test('pages load without console errors (including CSP violations)', async ({ pa
   page.on('console', message => message.type() === 'error' && errors.push(message.text()));
   page.on('pageerror', error => errors.push(error.message));
 
-  for (const url of ['/', '/sorteio/lista', '/termos']) {
+  for (const url of ['/', '/sorteio/lista', '/termos', '/privacidade']) {
     await page.goto(url);
     await page.waitForLoadState('networkidle');
   }

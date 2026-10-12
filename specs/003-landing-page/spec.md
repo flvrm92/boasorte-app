@@ -1,6 +1,6 @@
 # 003 — Landing page
 
-**Status:** Clarified — pronto para Plan · **Criado:** 2026-10-11
+**Status:** Implementada — pendências: dados legais (razão social/CNPJ) e revisão jurídica · [plan.md](plan.md) · [tasks.md](tasks.md) · **Criado:** 2026-10-11
 
 ## Contexto
 Primeira impressão do produto: explicar o que o app faz, gerar confiança na justiça dos sorteios e levar o visitante a começar um sorteio em um clique.
@@ -42,3 +42,8 @@ Como visitante, quero entender em segundos o que o app faz e começar um sorteio
 - Sem planos pagos no MVP, então não há seção de preços. *(padrão proposto)*
 - Prerender da landing para SEO. *(padrão proposto)*
 - A política de privacidade passa a ser pré-requisito da 002. *(consequência da decisão OAuth)*
+
+### 2026-10-12 (Plan)
+- **Controlador:** empresa (razão social e CNPJ ainda a informar). **Contato:** contato@boasorte.app. **Hospedagem:** VPS no Brasil. *(decisão do usuário)*
+- **"Sortear comentários"** aparece como *em breve* até a 002 existir; o US1.2 fica pendente da 002. *(padrão proposto)*
+- **Sem cookies e sem analytics:** a política declara isso; qualquer ferramenta de métricas futura exige revisar a política antes. *(padrão proposto)*
