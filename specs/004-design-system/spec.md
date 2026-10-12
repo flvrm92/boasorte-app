@@ -1,6 +1,6 @@
 # 004 — Design system e escolha da biblioteca de componentes
 
-**Status:** Clarified — pronto para Plan · **Criado:** 2026-10-12 · **Bloqueia:** 001 (Fase 3, UI) e 003
+**Status:** Implementada (fundação) — ver [tasks](tasks.md) e [ADR 0001](../adr/0001-biblioteca-de-componentes.md) · **Criado:** 2026-10-12 · **Bloqueia:** 001 (Fase 3, UI) e 003
 
 ## Contexto
 O client precisa de uma base visual única antes das telas: temas claro e escuro, tipografia, ícones, responsividade e uma biblioteca de componentes. Escolher a biblioteca é difícil de reverter, então a decisão sai de uma **PoC comparativa** e não de preferência.
@@ -71,3 +71,11 @@ Como visitante, quero que o app respeite o tema do meu sistema e me deixe trocar
 - PoC entre **Angular Material e PrimeNG**. *(decisão do usuário)* Outras bibliotecas (ex.: Spartan/ui, headless com Tailwind) só entram se ambas forem reprovadas no critério de liberdade visual.
 - Tema padrão: seguir o sistema. *(padrão proposto)*
 - Fontes auto-hospedadas via `@fontsource`, sem Google Fonts em runtime. *(padrão proposto, constituição §5)*
+
+### 2026-10-12 (após a PoC)
+- **Biblioteca:** Angular Material 22 + CDK, conforme o [ADR 0001](../adr/0001-biblioteca-de-componentes.md). *(decisão do usuário)*
+- **Direção visual aprovada:** a da PoC. *(decisão do usuário)*
+  - **Paleta:** azul-cobalto `#2338c9` sobre papel frio `#f4f6fb`; no escuro, `#8d9bff` sobre `#0b0d22`. O amarelo-bola `#ffc531` fica reservado ao resultado.
+  - **Tipografia:** *Unbounded* (display, usada com moderação), *Atkinson Hyperlegible Next* (texto) e *IBM Plex Mono* (números e IDs).
+  - **Assinatura:** os ganhadores aparecem como bolas de loteria.
+  - **Ícones:** Lucide (`@lucide/angular`).

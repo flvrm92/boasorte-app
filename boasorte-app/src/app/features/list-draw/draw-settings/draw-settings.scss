@@ -1,0 +1,21 @@
+@use '../../../../styles/breakpoints' as bp;
+
+.toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  @media (min-width: bp.$sm) {
+    flex-direction: row;
+  }
+
+  button {
+    min-height: var(--tap-min);
+  }
+}

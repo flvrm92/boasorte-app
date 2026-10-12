@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+// Global styles: tokens → Material theme → base elements. Component styles live with their components.
+@use './styles/tokens';
+@use './styles/material';
+@use './styles/base';
+@use './styles/layout';

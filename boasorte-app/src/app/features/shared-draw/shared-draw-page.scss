@@ -1,0 +1,75 @@
+@use '../../../styles/breakpoints' as bp;
+
+.eyebrow {
+  margin: 0 0 var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+
+  @media (min-width: bp.$lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.winners {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+}
+
+.name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.facts {
+  margin: 0 0 var(--space-4);
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+details {
+  margin-bottom: var(--space-4);
+
+  summary {
+    cursor: pointer;
+    min-height: var(--tap-min);
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+}
+
+.participants {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-6);
+  columns: 2 160px;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+
+.cta {
+  margin-top: var(--space-6);
+}

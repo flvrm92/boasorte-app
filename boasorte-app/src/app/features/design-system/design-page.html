@@ -1,0 +1,69 @@
+<header class="head">
+  <h1>Design system</h1>
+  <p>Tema atual: <strong>{{ theme.resolved() }}</strong> ({{ theme.mode() }}). Use o botão do cabeçalho para alternar.</p>
+</header>
+
+<section aria-labelledby="colors">
+  <h2 id="colors">Cores</h2>
+  <ul class="swatches">
+    @for (color of colors; track color) {
+      <li>
+        <span class="swatch" [style.background]="'var(--color-' + color + ')'"></span>
+        <code>--color-{{ color }}</code>
+      </li>
+    }
+  </ul>
+</section>
+
+<section aria-labelledby="type">
+  <h2 id="type">Tipografia</h2>
+  <p class="display">Sorteio por lista</p>
+  <p>Atkinson Hyperlegible Next — texto da interface, pensado para legibilidade.</p>
+  <p class="mono">IBM Plex Mono · 9 entradas · 7 elegíveis · aZ3k9QpL0xYt</p>
+</section>
+
+<section aria-labelledby="actions">
+  <h2 id="actions">Ações</h2>
+  <div class="row">
+    <button mat-flat-button type="button"><svg lucideShuffle aria-hidden="true"></svg>Sortear</button>
+    <button mat-stroked-button type="button"><svg lucideUpload aria-hidden="true"></svg>Importar arquivo</button>
+    <button mat-button type="button">Sortear novamente</button>
+    <button mat-flat-button type="button" disabled>Desabilitado</button>
+  </div>
+  <div class="row">
+    <button mat-stroked-button type="button" (click)="openDialog()">Abrir diálogo</button>
+    <button mat-stroked-button type="button" (click)="openSnackBar()">Mostrar aviso</button>
+  </div>
+</section>
+
+<section aria-labelledby="fields">
+  <h2 id="fields">Campos</h2>
+  <div class="fields">
+    <app-field label="Título (opcional)" hint="Aparece no link compartilhado">
+      <input appFieldControl maxlength="120" />
+    </app-field>
+    <app-field label="Número de ganhadores" [error]="invalid() ? 'Há apenas 2 participantes elegíveis.' : null">
+      <input appFieldControl type="number" value="3" (input)="invalid.set(false)" />
+    </app-field>
+    <app-field label="Nomes ou números" hint="Um participante por linha">
+      <textarea appFieldControl rows="4">Ana&#10;Bruno&#10;Carla</textarea>
+    </app-field>
+  </div>
+  <div class="stack">
+    <mat-slide-toggle [checked]="true">Remover nomes repetidos</mat-slide-toggle>
+    <mat-slide-toggle>Mostrar participantes no link</mat-slide-toggle>
+  </div>
+  <mat-tab-group mat-stretch-tabs="false">
+    <mat-tab label="Lista"><p>Conteúdo da aba Lista.</p></mat-tab>
+    <mat-tab label="Intervalo"><p>Conteúdo da aba Intervalo.</p></mat-tab>
+  </mat-tab-group>
+</section>
+
+<section aria-labelledby="signature">
+  <h2 id="signature">Assinatura: bolas de loteria</h2>
+  <ol class="winners">
+    @for (name of ['Carla', 'Bruno', 'Eduarda']; track name; let i = $index) {
+      <li><app-lottery-ball [position]="i + 1" />{{ name }}</li>
+    }
+  </ol>
+</section>

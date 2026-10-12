@@ -1,0 +1,49 @@
+<div class="stack">
+  <app-field label="Título (opcional)" hint="Aparece no link do resultado." [error]="store.titleError()">
+    <input appFieldControl autocomplete="off" [value]="store.title()" (input)="setTitle($event)" />
+  </app-field>
+
+  <app-field label="Número de ganhadores" [error]="winnersError()">
+    <input
+      appFieldControl
+      type="number"
+      inputmode="numeric"
+      min="1"
+      max="1000"
+      [value]="store.winnersCount() ?? ''"
+      (input)="setWinners($event)"
+    />
+  </app-field>
+
+  <div class="toggles">
+    <mat-slide-toggle
+      [checked]="store.removeDuplicates()"
+      [disabled]="store.mode() === 'range'"
+      (change)="store.removeDuplicates.set($event.checked)"
+    >
+      Remover nomes repetidos
+    </mat-slide-toggle>
+    <mat-slide-toggle [checked]="store.showParticipants()" (change)="store.showParticipants.set($event.checked)">
+      Mostrar participantes no link
+    </mat-slide-toggle>
+  </div>
+
+  <div class="actions">
+    <button mat-flat-button type="button" [disabled]="!store.canDraw() || store.saving()" (click)="store.quickDraw()">
+      <svg lucideShuffle aria-hidden="true"></svg>
+      Sortear
+    </button>
+    <button mat-stroked-button type="button" [disabled]="!store.canDraw() || store.saving()" (click)="confirmOfficial()">
+      @if (store.saving()) {
+        <mat-spinner diameter="18" aria-hidden="true" />
+      }
+      Sortear e salvar
+    </button>
+  </div>
+
+  @if (empty()) {
+    <p class="note">Adicione participantes para sortear.</p>
+  } @else if (store.saving()) {
+    <p class="note" role="status">Fazendo o sorteio oficial…</p>
+  }
+</div>

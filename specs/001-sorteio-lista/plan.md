@@ -8,7 +8,7 @@
 | Tema | Decisão | Motivo |
 |------|---------|--------|
 | Arquitetura da API | Clean Architecture em 4 projetos (Domain, Application, Infrastructure, Api), com a regra de dependência verificada por testes de arquitetura | Constituição §4 |
-| Banco | PostgreSQL 17 + EF Core (Npgsql) | Decisão do usuário. Arrays nativos (`text[]`) guardam participantes e ganhadores sem tabelas extras. |
+| Banco | PostgreSQL 18 + EF Core (Npgsql) | Decisão do usuário. Arrays nativos (`text[]`) guardam participantes e ganhadores sem tabelas extras. |
 | Hospedagem | VPS com **Dokploy**: Applications `web` e `api` (Dockerfile a partir do Git) + Database PostgreSQL do Dokploy | Decisão do usuário. O Traefik do Dokploy cuida do TLS e do roteamento. |
 | Domínio | `boasorte.app`: `web` em `/` e `api` em `/api` (sem strip path); `www.boasorte.app` redireciona para o apex | Origem única: sem CORS e com cookies first-party (importante para o OAuth da 002). O TLD `.app` exige HTTPS (HSTS preload), o que o Traefik já garante. |
 | Backup | Script próprio na VPS (cron) com `pg_dump` | Decisão do usuário. Ver *Implantação*. |
@@ -99,7 +99,7 @@ boasorte-api/
 ## Regras de domínio (iguais no client e na API)
 
 1. **Normalizar** (FR-003): `trim()`; descartar vazias; > 200 caracteres = erro de validação.
-2. **Deduplicar** (FR-004, opcional): a chave é `trim` + minúsculas (invariante); mantém a **primeira** ocorrência; acentos são distintos.
+2. **Deduplicar** (FR-004, opcional): a chave é `trim` + minúsculas (`ToLowerInvariant` na API, `toLowerCase()` no client: mesmo mapeamento simples, então `ß`/`ẞ` empatam e `SS` não); mantém a **primeira** ocorrência; acentos são distintos.
 3. **Sortear** (FR-006): k distintos, em ordem, `1 ≤ k ≤ min(elegíveis, 1000)`.
 4. **Intervalo**: ±1.000.000.000, `start ≤ end`.
 
@@ -155,9 +155,10 @@ Traefik (Dokploy, TLS Let's Encrypt)
 
 | Item | Detalhe |
 |------|---------|
-| Web | Multi-stage `node:24` → `nginx:alpine`; fallback de SPA, cache longo para assets com hash, HSTS/CSP. |
+| Web | Multi-stage `node:24` → `nginx:alpine`; fallback de SPA, cache longo para assets com hash. CSP `script-src 'self'` sem exceções: o script anti-flash de tema é um arquivo (`theme-init.js`), e o *inline critical CSS* do Angular está desligado em produção. |
 | API | Expõe só a 8080; `ConnectionStrings__Default` e `ASPNETCORE_ENVIRONMENT` na aba *Environment* do Dokploy. |
-| Health | `GET /api/health` como health check da Application `api`. |
+| Health | `HEALTHCHECK` nas duas imagens: a API consulta `/api/health` (com o banco) via `/dev/tcp`, sem curl na imagem; o nginx expõe `/healthz`. |
+| Traefik | Com Docker ≥ 29 na VPS, o Traefik precisa ser ≥ 3.6 (as versões anteriores recebem 400 da API do Docker). Descoberto no ensaio local. |
 | Deploy | Auto-deploy por push na `main` (webhook do GitHub). |
 | Proxy | `ForwardedHeaders` com `KnownNetworks`/`KnownProxies` limpos (o IP do Traefik muda). |
 

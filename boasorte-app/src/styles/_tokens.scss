@@ -1,0 +1,77 @@
+// BoaSorte design tokens (spec 004, FR-401). Components use these variables, never literal colors.
+// <html data-theme="light|dark"> is set before first paint by the inline script in index.html.
+
+@use '@fontsource-variable/unbounded/index.css' as font-display;
+@use '@fontsource-variable/atkinson-hyperlegible-next/index.css' as font-body;
+@use '@fontsource/ibm-plex-mono/400.css' as font-mono-400;
+@use '@fontsource/ibm-plex-mono/500.css' as font-mono-500;
+
+:root {
+  color-scheme: light;
+
+  // Typography: display is used with restraint (page titles, results); mono for counts and ids.
+  --font-display: 'Unbounded Variable', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  // Ticket-cobalt on cool paper. Lottery-ball yellow is reserved for draw results.
+  --color-bg: #f4f6fb;
+  --color-surface: #ffffff;
+  --color-surface-2: #e9ecf7;
+  --color-ink: #12153a;
+  --color-ink-muted: #545a83;
+  --color-line: #d5d9ec;
+  --color-primary: #2338c9;
+  --color-primary-hover: #1a2ba3;
+  --color-on-primary: #ffffff;
+  --color-primary-soft: #e3e7ff;
+  --color-ball: #ffc531;
+  --color-ball-shade: #e59a00;
+  --color-on-ball: #12153a;
+  --color-success: #0b8a5f;
+  --color-danger: #c42b3b;
+  --color-focus: #2338c9;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --content-max: 1120px;
+  --tap-min: 44px;
+
+  --shadow-1: 0 1px 2px rgb(18 21 58 / 6%), 0 8px 24px rgb(18 21 58 / 6%);
+  --ease-bounce: cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-bg: #0b0d22;
+  --color-surface: #14173a;
+  --color-surface-2: #1c2050;
+  --color-ink: #eceeff;
+  --color-ink-muted: #a3a8d6;
+  --color-line: #2c3170;
+  --color-primary: #8d9bff;
+  --color-primary-hover: #a9b4ff;
+  --color-on-primary: #0b0d22;
+  --color-primary-soft: #232a6b;
+  --color-ball: #ffcf4d;
+  --color-ball-shade: #d99400;
+  --color-success: #3dd39b;
+  --color-danger: #ff7a86;
+  --color-focus: #a9b4ff;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 30%), 0 8px 24px rgb(0 0 0 / 30%);
+}
+
