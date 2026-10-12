@@ -25,7 +25,18 @@
 - `participants` é guardado mesmo com `show_participants = false`. Ele serve de registro de auditoria; a flag só controla o que a resposta pública expõe.
 - Para `range`, os ganhadores são guardados como texto (`"42"`) para manter um formato único na resposta.
 
-## Mapeamento EF Core
-- Entidade `DrawEntity`; `string[]` mapeado nativamente para `text[]` pelo Npgsql.
+## Mapeamento EF Core (Infrastructure)
+O agregado de domínio `Draw` é mapeado **diretamente**, sem uma entidade de persistência paralela. A configuração fica toda em `DrawConfiguration` (Infrastructure); o Domain não conhece o EF.
+
+| Domínio | Coluna(s) | Como |
+|---------|-----------|------|
+| `PublicId` | `public_id` | `ValueConverter<PublicId, string>` |
+| `DrawTitle?` | `title` | `ValueConverter` (nulo permitido) |
+| `DrawSettings` | `remove_duplicates`, `show_participants`, `winners_count` | `ComplexProperty` |
+| `NumberRange?` | `range_start`, `range_end` | `ComplexProperty` opcional |
+| `IReadOnlyList<Participant>` | `participants text[]` | `ValueConverter` + `ValueComparer` |
+| `IReadOnlyList<Winner>` | `winners text[]` | `ValueConverter` (a posição vem do índice) + `ValueComparer` |
+| `DrawKind` | `kind` | enum → string |
+
 - Convenção snake_case (`EFCore.NamingConventions`).
-- `kind` como string, com um `ValueConverter` do enum `DrawKind`.
+- O construtor privado sem parâmetros do `Draw` existe só para o EF.

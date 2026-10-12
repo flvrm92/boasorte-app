@@ -21,9 +21,15 @@ Como visitante, quero entender em segundos o que o app faz e começar um sorteio
 2. Há uma seção explicando por que o sorteio é justo (aleatoriedade segura, link de resultado imutável).
 3. Há um FAQ (ex.: quais redes, é grátis?, posts privados, limite de comentários).
 
+### US4 — Navegar e voltar ao início facilmente (P1)
+**Aceite**
+1. O header de todas as páginas tem o logo (que leva à landing), atalhos para os dois tipos de sorteio e o botão de tema.
+2. No mobile, a navegação vira um menu compacto e as duas ações principais continuam a um toque.
+
 ## Requisitos funcionais
+- **FR-200** Visual, temas claro/escuro, tipografia e ícones conforme a [004](../004-design-system/spec.md). Ilustrações SVG no hero e no "Como funciona".
 - **FR-201** A página é responsiva (360 px a desktop) e acessível (WCAG 2.1 AA).
-- **FR-202** SEO: título, meta description, Open Graph e conteúdo indexável. A landing é pré-renderizada no build (prerender do Angular).
+- **FR-202** SEO: título, meta description, Open Graph (com `https://boasorte.app` como URL canônica) e conteúdo indexável. A landing é pré-renderizada no build (prerender do Angular).
 - **FR-203** Páginas de termos de uso e política de privacidade. A política é **obrigatória para o App Review da Meta** (ver 002) e deve explicar o uso de dados de comentários e a exclusão de dados.
 - **FR-205** O FAQ deixa claro que o sorteio de comentários funciona com posts da própria conta Business/Creator ou Página.
 - **FR-204** LCP < 2,5 s em 4G.

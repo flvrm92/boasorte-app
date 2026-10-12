@@ -1,5 +1,5 @@
 {
-  "$comment": "Casos compartilhados entre os testes do app (Jasmine) e da API (xUnit). Regras: plan.md > Regras de domínio.",
+  "$comment": "Casos compartilhados entre os testes do client (Vitest) e da API (xUnit). Regras: plan.md > Regras de domínio.",
   "cases": [
     {
       "name": "trim e linhas vazias",
