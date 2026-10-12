@@ -3,12 +3,14 @@ import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
-  it('renders a router outlet', async () => {
+  it('renders the routed page inside the shell', async () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }));
     await TestBed.configureTestingModule({ imports: [App], providers: [provideRouter([])] }).compileComponents();
 
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
 
-    expect((fixture.nativeElement as HTMLElement).querySelector('router-outlet')).not.toBeNull();
+    expect((fixture.nativeElement as HTMLElement).querySelector('app-shell main router-outlet')).not.toBeNull();
+    vi.unstubAllGlobals();
   });
 });

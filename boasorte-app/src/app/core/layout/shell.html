@@ -1,0 +1,39 @@
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topbar">
+  <a class="brand" routerLink="/" aria-label="BoaSorte, página inicial">
+    <app-brand-mark />
+    <span aria-hidden="true">boa sorte</span>
+  </a>
+
+  <div class="topbar-end">
+    <nav aria-label="Principal">
+      <a class="nav-link" routerLink="/sorteio/lista" routerLinkActive="active" ariaCurrentWhenActive="page">Sortear lista</a>
+    </nav>
+
+    <button
+      mat-icon-button
+      type="button"
+      (click)="theme.toggle()"
+      [attr.aria-label]="theme.resolved() === 'dark' ? 'Usar tema claro' : 'Usar tema escuro'"
+    >
+      @if (theme.resolved() === 'dark') {
+        <svg lucideSun aria-hidden="true"></svg>
+      } @else {
+        <svg lucideMoon aria-hidden="true"></svg>
+      }
+    </button>
+  </div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+  <ng-content />
+</main>
+
+<footer class="footer">
+  <p>© {{ year }} BoaSorte</p>
+  <nav aria-label="Rodapé">
+    <a routerLink="/termos">Termos de uso</a>
+    <a routerLink="/privacidade">Privacidade</a>
+  </nav>
+</footer>

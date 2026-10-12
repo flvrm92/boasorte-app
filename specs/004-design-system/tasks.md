@@ -10,9 +10,9 @@ Pré-requisito: T005 da [001](../001-sorteio-lista/tasks.md) (Angular 22 + Vites
 - [x] **D005** Prints lado a lado (mobile e desktop, claro e escuro) + tabela de notas → escrever o **ADR 0001** e apresentar para decisão.
 
 ## Fase B — Fundação (na `main`, após o ADR aceito)
-- [ ] **D010** 🔴🟢 `ThemeService` (`system|light|dark`, persistência, reação a `prefers-color-scheme`) + script anti-flash no `index.html`. *(FR-402, US1)*
-- [ ] **D011** Tokens definitivos (`src/styles/`), tipografia (display + texto), escala de espaçamento, breakpoints; integração com a biblioteca escolhida. *(FR-401, FR-403)*
-- [ ] **D012** Conjunto de ícones SVG escolhido + componente/registro de ícones.
-- [ ] **D013** 🔴🟢 Shell: header (logo SVG, navegação, alternar tema), footer (termos, privacidade), layout responsivo. *(FR-404)*
-- [ ] **D014** Página `/_design` (só em dev) com tokens e componentes nos dois temas. *(FR-405)*
-- [ ] **D015** e2e: tema persiste após reload, sem flash (screenshot no primeiro frame), axe nos dois temas.
+- [x] **D010** 🔴🟢 `ThemeService` (`system|light|dark`, persistência, reação a `prefers-color-scheme`) + script anti-flash no `index.html`. *(FR-402, US1)*
+- [x] **D011** Tokens definitivos (`src/styles/`), tipografia (display + texto), escala de espaçamento, breakpoints; integração com a biblioteca escolhida. *(FR-401, FR-403)*
+- [x] **D012** Conjunto de ícones SVG: Lucide via `@lucide/angular` (componentes standalone `svg[lucideX]`, sem registro global).
+- [x] **D013** 🔴🟢 Shell: header (logo SVG, navegação, alternar tema), footer (termos, privacidade), layout responsivo. *(FR-404)*
+- [x] **D014** Página `/_design` (só em dev) com tokens e componentes nos dois temas. *(FR-405)*
+- [x] **D015** e2e: tema persiste após reload, sem flash (screenshot no primeiro frame), axe nos dois temas.

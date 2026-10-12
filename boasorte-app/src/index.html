@@ -1,11 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <title>BoasorteApp</title>
+  <title>BoaSorte · Sorteios justos de listas e comentários</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="description" content="Sorteie nomes, números e comentários de forma justa e compartilhe o resultado com um link que não muda.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script>
+    // Applies the theme before first paint (spec 004, FR-402). Mirrors ThemeService and THEME_STORAGE_KEY.
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem('boasorte-theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
 </head>
 <body>
   <app-root></app-root>

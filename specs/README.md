@@ -26,7 +26,7 @@ Decisões técnicas difíceis de reverter viram [ADRs](adr/README.md).
 | [001](001-sorteio-lista/spec.md) | Sorteio por lista (nomes/números) | Planned → [tasks](001-sorteio-lista/tasks.md) |
 | [002](002-sorteio-comentarios/spec.md) | Sorteio de comentários (Instagram/Facebook via OAuth) | Clarified |
 | [003](003-landing-page/spec.md) | Landing page | Clarified |
-| [004](004-design-system/spec.md) | Design system, temas e PoC Material × PrimeNG | Clarified → [tasks](004-design-system/tasks.md) |
+| [004](004-design-system/spec.md) | Design system, temas e PoC Material × PrimeNG | Fundação implementada → [tasks](004-design-system/tasks.md) |
 
 Princípios transversais: [constitution.md](constitution.md).
 
