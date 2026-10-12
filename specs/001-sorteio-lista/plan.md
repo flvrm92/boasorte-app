@@ -155,9 +155,10 @@ Traefik (Dokploy, TLS Let's Encrypt)
 
 | Item | Detalhe |
 |------|---------|
-| Web | Multi-stage `node:24` → `nginx:alpine`; fallback de SPA, cache longo para assets com hash, HSTS/CSP. |
+| Web | Multi-stage `node:24` → `nginx:alpine`; fallback de SPA, cache longo para assets com hash. CSP `script-src 'self'` sem exceções: o script anti-flash de tema é um arquivo (`theme-init.js`), e o *inline critical CSS* do Angular está desligado em produção. |
 | API | Expõe só a 8080; `ConnectionStrings__Default` e `ASPNETCORE_ENVIRONMENT` na aba *Environment* do Dokploy. |
-| Health | `GET /api/health` como health check da Application `api`. |
+| Health | `HEALTHCHECK` nas duas imagens: a API consulta `/api/health` (com o banco) via `/dev/tcp`, sem curl na imagem; o nginx expõe `/healthz`. |
+| Traefik | Com Docker ≥ 29 na VPS, o Traefik precisa ser ≥ 3.6 (as versões anteriores recebem 400 da API do Docker). Descoberto no ensaio local. |
 | Deploy | Auto-deploy por push na `main` (webhook do GitHub). |
 | Proxy | `ForwardedHeaders` com `KnownNetworks`/`KnownProxies` limpos (o IP do Traefik muda). |
 

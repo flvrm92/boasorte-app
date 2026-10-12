@@ -1,0 +1,53 @@
+# Production rehearsal on a developer machine: same images and the same path routing Dokploy/Traefik use.
+#   docker compose -f deploy/docker-compose.local.yml up -d --build
+#   E2E_BASE_URL=http://localhost:8088 npm run e2e   (from boasorte-app/)
+# Expects the API repository checked out next to this one (../boasorte-api).
+name: boasorte-local
+
+services:
+  traefik:
+    image: traefik:v3.7
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - "8088:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: boasorte
+      POSTGRES_PASSWORD: boasorte
+      POSTGRES_DB: boasorte
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U boasorte -d boasorte"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ../../boasorte-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Default: Host=postgres;Database=boasorte;Username=boasorte;Password=boasorte
+    depends_on:
+      postgres:
+        condition: service_healthy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=PathPrefix(`/api`)
+      - traefik.http.services.api.loadbalancer.server.port=8080
+
+  web:
+    build: ../boasorte-app
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.web.rule=PathPrefix(`/`)
+      - traefik.http.services.web.loadbalancer.server.port=80
+
+volumes:
+  pgdata:

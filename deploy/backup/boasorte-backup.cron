@@ -1,0 +1,6 @@
+# /etc/cron.d/boasorte-backup — daily database backup at 03:00 (server time).
+# Adjust CONTAINER_FILTER to the Postgres service name shown in Dokploy; add RCLONE_REMOTE for an off-site copy.
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+0 3 * * * root CONTAINER_FILTER=boasorte-postgres /opt/boasorte/backup/pg-backup.sh >> /var/log/boasorte-backup.log 2>&1
