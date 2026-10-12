@@ -1,0 +1,31 @@
+# 001 — Modelo de dados
+
+## Tabela `draws`
+
+| Coluna | Tipo | Nulo | Observação |
+|--------|------|------|------------|
+| `id` | `uuid` | não | PK (UUID v7, gerado na aplicação) |
+| `public_id` | `varchar(12)` | não | **UNIQUE**; base62 por CSPRNG |
+| `title` | `varchar(120)` | sim | |
+| `kind` | `varchar(10)` | não | `list` \| `range` (CHECK) |
+| `remove_duplicates` | `boolean` | não | sempre `false` para `range` |
+| `show_participants` | `boolean` | não | padrão `true` |
+| `winners_count` | `integer` | não | CHECK `>= 1` |
+| `range_start` | `integer` | sim | obrigatório se `kind = range` |
+| `range_end` | `integer` | sim | obrigatório se `kind = range`; CHECK `range_end >= range_start` |
+| `submitted_count` | `integer` | não | entradas recebidas antes de normalizar/deduplicar (`range`: igual a `eligible_count`) |
+| `eligible_count` | `integer` | não | participantes sorteáveis |
+| `participants` | `text[]` | sim | elegíveis na ordem original; `null` para `range` |
+| `winners` | `text[]` | não | em ordem (índice 0 = 1º lugar) |
+| `created_at` | `timestamptz` | não | UTC |
+| `expires_at` | `timestamptz` | não | `created_at + 12 meses`; **índice** (usado pela purga) |
+
+## Regras
+- **Imutável:** não existe UPDATE. A aplicação só faz INSERT, SELECT e o DELETE da purga.
+- `participants` é guardado mesmo com `show_participants = false`. Ele serve de registro de auditoria; a flag só controla o que a resposta pública expõe.
+- Para `range`, os ganhadores são guardados como texto (`"42"`) para manter um formato único na resposta.
+
+## Mapeamento EF Core
+- Entidade `DrawEntity`; `string[]` mapeado nativamente para `text[]` pelo Npgsql.
+- Convenção snake_case (`EFCore.NamingConventions`).
+- `kind` como string, com um `ValueConverter` do enum `DrawKind`.
