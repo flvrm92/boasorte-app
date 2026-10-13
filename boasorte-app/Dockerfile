@@ -6,6 +6,9 @@ COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund
 
 COPY . .
+# The build runs on the VPS next to live services. By default it peaks above 2.2 GB (esbuild + parallel workers
+# + prerender) and gets OOM-killed; one worker and a capped heap keep it around 2 GB at a small time cost.
+ENV NG_BUILD_MAX_WORKERS=1 NODE_OPTIONS=--max-old-space-size=1024
 RUN npx ng build --configuration production
 
 FROM nginx:1.29-alpine AS final
