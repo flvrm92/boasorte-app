@@ -55,13 +55,25 @@ As migrações rodam na inicialização. Por isso, toda migração precisa ser c
 
 ## 4. Web (Create Service → Application)
 
+A imagem é gerada no GitHub Actions ([.github/workflows/web.yml](../.github/workflows/web.yml)), não na VPS. O build do Angular chegava perto de 2 GB e o kernel o matava por falta de memória, o que o Dokploy mostrava como deploy cancelado. A cada push na `main` que toca `boasorte-app/`, o workflow roda os testes, publica `ghcr.io/flvrm92/boasorte-web:latest` (e `:sha-<commit>`) e chama a API do Dokploy para fazer o deploy.
+
 | Campo | Valor |
 |---|---|
-| Repositório / branch | `boasorte-app` / `main` |
-| Build type | Dockerfile — path `Dockerfile`, **build path `boasorte-app`** |
+| Provider | **Docker** — imagem `ghcr.io/flvrm92/boasorte-web:latest` |
+| Registry | se o pacote no GHCR for privado: registry `ghcr.io`, usuário do GitHub e um PAT *classic* só com `read:packages`. Se for público (é só o front estático), deixe em branco |
 | Porta do container | `80` |
 | Domínios | `boasorte.app` path `/` (HTTPS, Let's Encrypt) e `www.boasorte.app` com redirect permanente para `https://boasorte.app` |
-| Auto deploy | ligado |
+| Auto deploy | quem dispara é o workflow (não há mais build por Git no Dokploy) |
+
+Secrets do repositório no GitHub (*Settings → Secrets and variables → Actions*). O job `deploy` usa o environment `production`:
+
+| Secret | Valor |
+|---|---|
+| `DOKPLOY_URL` | URL do painel, ex.: `https://dokploy.boasorte.app` (sem `/` no final) |
+| `DOKPLOY_API_KEY` | Dokploy → *Profile → API/CLI* → gerar token |
+| `DOKPLOY_WEB_APPLICATION_ID` | o ID da Application `web` (aparece na URL do painel: `.../application/<id>`) |
+
+Rollback: troque a imagem da Application para `ghcr.io/flvrm92/boasorte-web:sha-<commit>` e faça o deploy no painel.
 
 O Traefik escolhe a regra mais específica, então `/api/*` vai para a API mesmo com a web em `/`.
 

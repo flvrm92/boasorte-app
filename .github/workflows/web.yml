@@ -1,0 +1,90 @@
+# Web (Angular): testa, gera a imagem no GitHub Actions, publica no GHCR e pede ao Dokploy para atualizar.
+# O build não roda mais na VPS: ele chegava perto de 2 GB e o kernel o matava (OOM), o que o Dokploy mostrava
+# como deploy cancelado. Configuração do Dokploy e dos secrets: deploy/README.md, seção 4.
+name: web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'boasorte-app/**'
+      - '.github/workflows/web.yml'
+  pull_request:
+    paths:
+      - 'boasorte-app/**'
+      - '.github/workflows/web.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/boasorte-web
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: boasorte-app
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: boasorte-app/.nvmrc
+          cache: npm
+          cache-dependency-path: boasorte-app/package-lock.json
+      - run: npm ci
+      - run: npm test
+
+  image:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          # latest = o que o Dokploy roda; sha-<commit> = versões anteriores para rollback.
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+      - uses: docker/build-push-action@v6
+        with:
+          context: boasorte-app
+          platforms: linux/amd64
+          # Em PR só valida que a imagem builda; não publica.
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: image
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Disparar deploy no Dokploy
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_WEB_APPLICATION_ID: ${{ secrets.DOKPLOY_WEB_APPLICATION_ID }}
+        run: |
+          curl --fail-with-body -sS -X POST "${DOKPLOY_URL%/}/api/application.deploy" \
+            -H "x-api-key: ${DOKPLOY_API_KEY}" \
+            -H 'Content-Type: application/json' \
+            -d "{\"applicationId\":\"${DOKPLOY_WEB_APPLICATION_ID}\"}"
