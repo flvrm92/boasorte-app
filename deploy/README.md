@@ -5,9 +5,8 @@ Plano de referência: [specs/001-sorteio-lista/plan.md](../specs/001-sorteio-lis
 ```
 Traefik (Dokploy, TLS Let's Encrypt)
  ├── boasorte.app/       → Application "web" (repo boasorte-app, build path boasorte-app/)  nginx :80
- ├── boasorte.app/api    → Application "api" (repo boasorte-api, raiz)                       :8080
- │                             └── Database "postgres" (Dokploy, rede interna)
- └── www.boasorte.app    → redirect 301 para boasorte.app
+ └── boasorte.app/api    → Application "api" (repo boasorte-api, raiz)                       :8080
+                               └── Database "postgres" (Dokploy, rede interna)
 ```
 
 ## 0. Ensaio local (antes de qualquer deploy)
@@ -22,7 +21,7 @@ docker compose -f deploy/docker-compose.local.yml down -v
 
 ## 1. Pré-requisitos
 
-- [ ] DNS: registros `A` (e `AAAA`, se houver IPv6) de `boasorte.app` e `www.boasorte.app` apontando para a VPS.
+- [ ] DNS: registros `A` (e `AAAA`, se houver IPv6) de `boasorte.app` apontando para a VPS.
 - [ ] Firewall: apenas 22, 80 e 443 abertos.
 - [ ] Os dois repositórios no GitHub, conectados ao Dokploy (provider GitHub).
 - [ ] **Versão do Traefik ≥ 3.6 se o Docker da VPS for ≥ 29.** Versões anteriores falham ao falar com a API do Docker 29 ("API returned a 400"), e nenhuma rota funciona. Confira com `docker version` e a imagem do Traefik do Dokploy.
@@ -62,7 +61,7 @@ A imagem é gerada no GitHub Actions ([.github/workflows/web.yml](../.github/wor
 | Provider | **Docker** — imagem `ghcr.io/flvrm92/boasorte-web:latest` |
 | Registry | se o pacote no GHCR for privado: registry `ghcr.io`, usuário do GitHub e um PAT *classic* só com `read:packages`. Se for público (é só o front estático), deixe em branco |
 | Porta do container | `80` |
-| Domínios | `boasorte.app` path `/` (HTTPS, Let's Encrypt) e `www.boasorte.app` com redirect permanente para `https://boasorte.app` |
+| Domínios | `boasorte.app` path `/` (HTTPS, Let's Encrypt). Sem `www`: o site existe só no apex |
 | Auto deploy | quem dispara é o workflow (não há mais build por Git no Dokploy) |
 
 Secrets do repositório no GitHub (*Settings → Secrets and variables → Actions*). O job `deploy` usa o environment `production`:
@@ -109,10 +108,9 @@ Ensaio feito em 2026-10-12, no ambiente local: backup → apagar tudo → restor
 - [ ] Caixa de e-mail `contato@boasorte.app` criada e recebendo
 - [ ] Retenção dos logs de acesso do Traefik/Dokploy ≤ 30 dias (a política de privacidade promete isso)
 
-- [ ] `https://boasorte.app/api/health` → `Healthy`
-- [ ] `https://www.boasorte.app` redireciona para `https://boasorte.app`
-- [ ] Headers na home: `Content-Security-Policy`, `X-Frame-Options: DENY`, HSTS (o Traefik/Dokploy adiciona com HTTPS; o TLD `.app` é HSTS-preload)
-- [ ] `cd boasorte-app && E2E_BASE_URL=https://boasorte.app npx playwright test e2e/list-draw.e2e.ts e2e/landing.e2e.ts e2e/smoke.e2e.ts`
+- [x] `https://boasorte.app/api/health` → `Healthy`
+- [ ] Headers na home: `Content-Security-Policy`, `X-Frame-Options: DENY`, `Strict-Transport-Security` (enviado pelo nginx da imagem `web`: o Traefik do Dokploy não adiciona por padrão; o TLD `.app` já é HSTS-preload)
+- [x] `cd boasorte-app && E2E_BASE_URL=https://boasorte.app npx playwright test e2e/list-draw.e2e.ts e2e/landing.e2e.ts e2e/smoke.e2e.ts`
   - cria 2 sorteios reais (de teste) no banco de produção
 - [ ] Rate limit enxerga o IP real: 11 `POST` seguidos do mesmo IP → o 11º recebe 429 (comportamento validado no ensaio local, inclusive contra `X-Forwarded-For` forjado)
 - [ ] Primeiro backup manual gerado e listado com `pg_restore --list`

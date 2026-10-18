@@ -10,7 +10,7 @@
 | Arquitetura da API | Clean Architecture em 4 projetos (Domain, Application, Infrastructure, Api), com a regra de dependência verificada por testes de arquitetura | Constituição §4 |
 | Banco | PostgreSQL 18 + EF Core (Npgsql) | Decisão do usuário. Arrays nativos (`text[]`) guardam participantes e ganhadores sem tabelas extras. |
 | Hospedagem | VPS com **Dokploy**: Applications `web` e `api` (Dockerfile a partir do Git) + Database PostgreSQL do Dokploy | Decisão do usuário. O Traefik do Dokploy cuida do TLS e do roteamento. |
-| Domínio | `boasorte.app`: `web` em `/` e `api` em `/api` (sem strip path); `www.boasorte.app` redireciona para o apex | Origem única: sem CORS e com cookies first-party (importante para o OAuth da 002). O TLD `.app` exige HTTPS (HSTS preload), o que o Traefik já garante. |
+| Domínio | `boasorte.app`: `web` em `/` e `api` em `/api` (sem strip path); sem `www` | Origem única: sem CORS e com cookies first-party (importante para o OAuth da 002). O TLD `.app` exige HTTPS (HSTS preload), o que o Traefik já garante. |
 | Backup | Script próprio na VPS (cron) com `pg_dump` | Decisão do usuário. Ver *Implantação*. |
 | Dev local | Postgres via `docker compose`; API com `dotnet run`; Angular com `ng serve` + `proxy.conf.json` | Mesma topologia de URL de produção. |
 | Aleatoriedade | API: `RandomNumberGenerator.GetInt32` atrás da porta `IRandomSource`. Client: `crypto.getRandomValues` com rejection sampling. | Constituição §1. Sem viés de módulo. |
@@ -148,9 +148,8 @@ O "Sortear e salvar" é um sorteio **novo** no servidor; a UI avisa antes de con
 ```
 Traefik (Dokploy, TLS Let's Encrypt)
  ├── boasorte.app/      → Application "web" (repo boasorte-app, boasorte-app/Dockerfile) nginx:80
- ├── boasorte.app/api   → Application "api" (repo boasorte-api, Dockerfile na raiz)     :8080
- │                            └── Database "postgres" (Dokploy, rede interna)
- └── www.boasorte.app   → redirect 301 para boasorte.app
+ └── boasorte.app/api   → Application "api" (repo boasorte-api, Dockerfile na raiz)     :8080
+                              └── Database "postgres" (Dokploy, rede interna)
 ```
 
 | Item | Detalhe |
