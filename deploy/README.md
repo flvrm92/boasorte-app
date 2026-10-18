@@ -109,10 +109,10 @@ Ensaio feito em 2026-10-12, no ambiente local: backup → apagar tudo → restor
 - [ ] Caixa de e-mail `contato@boasorte.app` criada e recebendo
 - [ ] Retenção dos logs de acesso do Traefik/Dokploy ≤ 30 dias (a política de privacidade promete isso)
 
-- [ ] `https://boasorte.app/api/health` → `Healthy`
+- [x] `https://boasorte.app/api/health` → `Healthy`
 - [ ] `https://www.boasorte.app` redireciona para `https://boasorte.app`
-- [ ] Headers na home: `Content-Security-Policy`, `X-Frame-Options: DENY`, HSTS (o Traefik/Dokploy adiciona com HTTPS; o TLD `.app` é HSTS-preload)
-- [ ] `cd boasorte-app && E2E_BASE_URL=https://boasorte.app npx playwright test e2e/list-draw.e2e.ts e2e/landing.e2e.ts e2e/smoke.e2e.ts`
+- [ ] Headers na home: `Content-Security-Policy`, `X-Frame-Options: DENY`, `Strict-Transport-Security` (enviado pelo nginx da imagem `web`: o Traefik do Dokploy não adiciona por padrão; o TLD `.app` já é HSTS-preload)
+- [x] `cd boasorte-app && E2E_BASE_URL=https://boasorte.app npx playwright test e2e/list-draw.e2e.ts e2e/landing.e2e.ts e2e/smoke.e2e.ts`
   - cria 2 sorteios reais (de teste) no banco de produção
 - [ ] Rate limit enxerga o IP real: 11 `POST` seguidos do mesmo IP → o 11º recebe 429 (comportamento validado no ensaio local, inclusive contra `X-Forwarded-For` forjado)
 - [ ] Primeiro backup manual gerado e listado com `pg_restore --list`

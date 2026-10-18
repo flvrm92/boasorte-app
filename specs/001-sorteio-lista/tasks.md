@@ -63,7 +63,7 @@ Legenda: **[P]** = paralelizável com outras [P] da mesma fase · **API** = `boa
 - [x] **T060 APP** Playwright: (a) lista → sorteio rápido → resultado (US1); (b) importar TXT → sortear e salvar → abrir o link → mesmo resultado em dois acessos (US3 + US5); (c) os dois temas no viewport mobile.
 - [x] **T061 APP** `boasorte-app/Dockerfile` (`node:24` → `nginx:alpine`) + `nginx.conf` (fallback de SPA, cache, HSTS/CSP); `docker build` local OK.
 - [x] **T062 API** `Dockerfile` da raiz validado (só a 8080, usuário não-root); variáveis de ambiente documentadas.
-- [ ] **T063 OPS** _(runbook pronto em [deploy/README.md](../../deploy/README.md); execução no painel do Dokploy pelo usuário)_ Dokploy: Database Postgres; Applications `web`/`api` (GitHub, build path/Dockerfile); domínios `boasorte.app` (`/` e `/api`, sem strip path, Let's Encrypt) + redirect de `www`; variáveis de ambiente; health check; auto-deploy.
+- [x] **T063 OPS** _(runbook pronto em [deploy/README.md](../../deploy/README.md); execução no painel do Dokploy pelo usuário)_ Dokploy: Database Postgres; Applications `web`/`api` (GitHub, build path/Dockerfile); domínios `boasorte.app` (`/` e `/api`, sem strip path, Let's Encrypt) + redirect de `www`; variáveis de ambiente; health check; auto-deploy.
 - [x] **T064 OPS** `deploy/backup/pg-backup.sh` + `pg-restore.sh` + cron no host (diário, 7 diários + 4 semanais, log, código de saída); passo off-site opcional; restore testado uma vez e documentado em `deploy/README.md`.
 - [ ] **T065 OPS** _(checklist em [deploy/README.md](../../deploy/README.md#6-primeiro-deploy--checklist-t065))_ Primeiro deploy + e2e (a) contra `https://boasorte.app`; conferir no log que o rate limit enxerga o IP real.
 
